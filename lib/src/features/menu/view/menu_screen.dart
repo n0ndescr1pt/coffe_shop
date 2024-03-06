@@ -1,6 +1,9 @@
 import 'package:coffe_shop/src/features/menu/models/coffee_model.dart';
+import 'package:coffe_shop/src/features/widgets/category_listview.dart';
 import 'package:coffe_shop/src/features/widgets/coffe_card_widget.dart';
+import 'package:coffe_shop/src/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class MenuScreen extends StatefulWidget {
   final List<CoffeModel> coffeModel;
@@ -12,7 +15,6 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen> {
   final ScrollController _scrollController = ScrollController();
-  int _currentTub = 0;
   late List<Widget> _sliversWidget;
   late List<CoffeModel> _coffeModel;
 
@@ -24,15 +26,21 @@ class _MenuScreenState extends State<MenuScreen> {
   _getSliverWidgets(List<CoffeModel> coffeModel) {
     final List<Widget> list = [];
     for (int i = 0; i < coffeModel.length; i++) {
-      list.add(SliverToBoxAdapter(
-          child: Text(
-        coffeModel[i].title,
-        key: coffeModel[i].columnKey,
-      )));
+      list.add(SliverPadding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        sliver: SliverToBoxAdapter(
+            child: Text(
+          coffeModel[i].title,
+          key: coffeModel[i].columnKey,
+          style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+        )),
+      ));
       list.add(
         SliverGrid(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2),
+            crossAxisSpacing: 8,
+            crossAxisCount: 2,
+          ),
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
               return CoffeCard(
@@ -60,51 +68,52 @@ class _MenuScreenState extends State<MenuScreen> {
     }
   }
 
-  _onTap(int index) {
-    scrollToDirection(widget.coffeModel[index].rowKey);
-    setState(() {
-      _currentTub = index;
-    });
-    scrollToDirection(widget.coffeModel[index].columnKey);
-  }
 
-  void _onScrollEvent() {
-    final extentAfter = _scrollController.position;
-    print(extentAfter);
-  }
+  //void _onScrollEvent() {
+  //  //for (int i = 0; i < widget.coffeModel.length; i++) {
+  //    final renderBox = widget.coffeModel[_a].columnKey.currentContext!
+  //        .findRenderObject() as RenderBox;
+  //    if (_scrollController.position.pixels.round() ==
+  //        renderBox.localToGlobal(Offset.zero).dy.round()) {
+  //          setState(() {
+  //            _a++;
+  //          });
+  //      scrollToDirection(widget.coffeModel[_a].rowKey);
+  //    }
+  //  //}
+//
+  //  //final extentAfter = _scrollController.position;
+  //  print(_scrollController.position.pixels);
+  //  print( renderBox.localToGlobal(Offset.zero).dy);
+  //}
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScrollEvent);
+    //_scrollController.addListener(_onScrollEvent);
     _getSliverWidgets(widget.coffeModel);
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: SizedBox(
-        height: 30,
-        child: ListView.builder(
-            itemCount: widget.coffeModel.length,
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Container(
-                  key: widget.coffeModel[index].rowKey,
-                  color: _currentTub == index ? Colors.amber : Colors.blue,
-                  child: OutlinedButton(
-                    onPressed: (){_onTap(index);},
-                    child: Text(widget.coffeModel[index].title),
-                  ));
-            }),
-      )),
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: _sliversWidget,
+        toolbarHeight: 50,
+        surfaceTintColor: AppColors.backgroundColor,
+        backgroundColor: AppColors.backgroundColor,
+        titleSpacing: 16,
+        centerTitle: true,
+        title: SizedBox(
+          height: 35,
+          child: CategoryListView(coffeModel: widget.coffeModel,),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: CustomScrollView(
+          controller: _scrollController,
+          slivers: _sliversWidget,
+        ),
       ),
     );
   }

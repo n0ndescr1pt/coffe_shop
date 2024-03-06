@@ -18,7 +18,7 @@ class _CoffeeShopAppState extends State<CoffeeShopApp> {
     super.initState();
     _a = [
       CoffeModel(
-          title: "1",
+          title: "Горячие напитки",
           columnKey: GlobalKey(),
           rowKey: GlobalKey(),
           drinks: [
@@ -26,7 +26,39 @@ class _CoffeeShopAppState extends State<CoffeeShopApp> {
             DrinkModel(name: "name 2", image: 'https://avatars.mds.yandex.net/i?id=3582d80bd3d144efb4a11c84197d51d9d49bc46d-12525650-images-thumbs&n=13', price: 123)
           ]),
       CoffeModel(
-          title: "2",
+          title: "Капучино",
+          columnKey: GlobalKey(),
+          rowKey: GlobalKey(),
+          drinks: [
+            DrinkModel(name: "name 1", image: 'https://avatars.mds.yandex.net/i?id=3582d80bd3d144efb4a11c84197d51d9d49bc46d-12525650-images-thumbs&n=13', price: 123),
+            DrinkModel(name: "name 2", image: 'https://avatars.mds.yandex.net/i?id=3582d80bd3d144efb4a11c84197d51d9d49bc46d-12525650-images-thumbs&n=13', price: 123)
+          ]),
+      CoffeModel(
+          title: "Раф",
+          columnKey: GlobalKey(),
+          rowKey: GlobalKey(),
+          drinks: [
+            DrinkModel(name: "name 1", image: 'https://avatars.mds.yandex.net/i?id=3582d80bd3d144efb4a11c84197d51d9d49bc46d-12525650-images-thumbs&n=13', price: 123),
+            DrinkModel(name: "name 2", image: 'https://avatars.mds.yandex.net/i?id=3582d80bd3d144efb4a11c84197d51d9d49bc46d-12525650-images-thumbs&n=13', price: 123)
+          ]),
+      CoffeModel(
+          title: "Латте",
+          columnKey: GlobalKey(),
+          rowKey: GlobalKey(),
+          drinks: [
+            DrinkModel(name: "name 1", image: 'https://avatars.mds.yandex.net/i?id=3582d80bd3d144efb4a11c84197d51d9d49bc46d-12525650-images-thumbs&n=13', price: 123),
+            DrinkModel(name: "name 2", image: 'https://avatars.mds.yandex.net/i?id=3582d80bd3d144efb4a11c84197d51d9d49bc46d-12525650-images-thumbs&n=13', price: 123)
+          ]),
+          CoffeModel(
+          title: "Закуски",
+          columnKey: GlobalKey(),
+          rowKey: GlobalKey(),
+          drinks: [
+            DrinkModel(name: "name 1", image: 'https://avatars.mds.yandex.net/i?id=3582d80bd3d144efb4a11c84197d51d9d49bc46d-12525650-images-thumbs&n=13', price: 123),
+            DrinkModel(name: "name 2", image: 'https://avatars.mds.yandex.net/i?id=3582d80bd3d144efb4a11c84197d51d9d49bc46d-12525650-images-thumbs&n=13', price: 123)
+          ]),
+      CoffeModel(
+          title: "Качупино",
           columnKey: GlobalKey(),
           rowKey: GlobalKey(),
           drinks: [

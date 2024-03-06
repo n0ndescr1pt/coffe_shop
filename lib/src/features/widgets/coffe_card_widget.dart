@@ -1,3 +1,4 @@
+import 'package:coffe_shop/src/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CoffeCard extends StatefulWidget {
@@ -30,74 +31,70 @@ class _CoffeCardState extends State<CoffeCard> {
     });
   }
 
-  Widget _PriceOrCount() {
+  Widget _priceOrCount() {
     if (_count > 0) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: _decrementCouner,
-            child: Container(
-              child: const Center(
-                child: Text('-'),
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            GestureDetector(
+              onTap: _decrementCouner,
+              child: Container(
+                width: 30,
+                height: 24,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: AppColors.mainColor,
+                ),
+                child: const Center(
+                    child: Text('-', style: TextStyle(color: Colors.white))),
               ),
-              width: 30,
-              height: 30,
+            ),
+            Container(
+              height: 24,
+              width: 60,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: Colors.blue.shade500,
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Container(
-            height: 30,
-            width: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: Colors.blue.shade500,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Center(child: Text(_count.toString())),
-            ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          GestureDetector(
-            onTap: _incrementCouner,
-            child: Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: Colors.blue.shade500,
+                borderRadius: BorderRadius.circular(16),
+                color: AppColors.mainColor,
               ),
               child: Center(
-                child: Text('+'),
+                  child: Text(
+                _count.toString(),
+                style: const TextStyle(color: Colors.white),
+              )),
+            ),
+            GestureDetector(
+              onTap: _incrementCouner,
+              child: Container(
+                width: 30,
+                height: 24,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: AppColors.mainColor,
+                ),
+                child: const Center(
+                    child: Text('+', style: TextStyle(color: Colors.white))),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     } else {
       return GestureDetector(
         onTap: _incrementCouner,
         child: Container(
-          width: 128,
-          height: 30,
+          width: 130,
+          height: 24,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: Colors.blue.shade500,
+            color: AppColors.mainColor,
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Center(
-                child: Text('${widget.price?.toString() ?? 'loading'} руб.')),
-          ),
+          child: Center(
+              child: Text(
+            '${widget.price.toString()} руб.',
+            style: const TextStyle(color: Colors.white),
+          )),
         ),
       );
     }
@@ -109,29 +106,19 @@ class _CoffeCardState extends State<CoffeCard> {
       width: 180,
       height: 192,
       decoration: BoxDecoration(
+        color: Colors.white,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Image.network(
-              widget?.image ??
-                  'https://avatars.mds.yandex.net/i?id=3582d80bd3d144efb4a11c84197d51d9d49bc46d-12525650-images-thumbs&n=13',
-              height: 100,
-              width: 100,
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            Text(widget?.name ?? 'Drink'),
-            const SizedBox(
-              height: 4,
-            ),
-            _PriceOrCount(),
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Image.network(widget.image, height: 100, width: 100),
+          
+          Text(widget.name,style: TextStyle(fontSize: 16)),
+          
+          _priceOrCount(),
+
+        ],
       ),
     );
   }
