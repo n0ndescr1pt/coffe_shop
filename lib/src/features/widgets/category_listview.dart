@@ -55,7 +55,7 @@ _onTap(int index) {
                 widget.coffeModel[index].title,
                 style: TextStyle(
                   fontSize: 14,
-                  color: widget.currentTub == index ? Colors.white : Colors.black,
+                  color: widget.currentTub == index ? AppColors.whiteColor : Colors.black,
                 ),
               ),
             ),

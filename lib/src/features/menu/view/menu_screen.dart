@@ -14,7 +14,7 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  int a = 0;
+  int countWidgetDisplay = 0;
   int currentTub = 0;
   final ScrollUtils _scrollUtils = ScrollUtils();
   final ScrollController _scrollController = ScrollController();
@@ -34,30 +34,31 @@ class _MenuScreenState extends State<MenuScreen> {
   //}
 
   void _onScrollEvent() {
-    double nado = 0;
-    for (int i = 0; i <= a; i++) {
-      nado += widget.coffeModel[i].drinks.length * 245 / 2;
+    double currentToDownScroll = 0;
+    for (int i = 0; i <= countWidgetDisplay; i++) {
+      currentToDownScroll += widget.coffeModel[i].drinks.length * 245 / 2;
     }
 
-    if (_scrollController.offset.round() > nado) {
+    if (_scrollController.offset.round() > currentToDownScroll) {
       setState(() {
-        a++;
-        currentTub = a;
+        countWidgetDisplay++;
+        currentTub = countWidgetDisplay;
       });
-      _scrollUtils.scrollToDirection(widget.coffeModel[a].rowKey);
+      _scrollUtils.scrollToDirection(widget.coffeModel[countWidgetDisplay].rowKey);
     }
-    if (a > 0) {
-      double nenado = 0;
-      for (int i = 0; i <= a - 1; i++) {
-        nenado += widget.coffeModel[i].drinks.length * 245 / 2;
+    
+    if (countWidgetDisplay > 0) {
+      double currentToUpScroll = 0;
+      for (int i = 0; i <= countWidgetDisplay - 1; i++) {
+        currentToUpScroll += widget.coffeModel[i].drinks.length * 245 / 2;
       }
 
-      if (_scrollController.offset.round() < nenado) {
+      if (_scrollController.offset.round() < currentToUpScroll) {
         setState(() {
-          a--;
-          currentTub = a;
+          countWidgetDisplay--;
+          currentTub = countWidgetDisplay;
         });
-        _scrollUtils.scrollToDirection(widget.coffeModel[a].rowKey);
+        _scrollUtils.scrollToDirection(widget.coffeModel[countWidgetDisplay].rowKey);
       }
     }
   }
