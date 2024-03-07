@@ -9,7 +9,7 @@ class ScrollUtils{
     if (targetContext != null) {
       Scrollable.ensureVisible(
         targetContext,
-        duration: const Duration(milliseconds: 350),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
     }

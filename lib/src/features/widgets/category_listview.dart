@@ -17,16 +17,16 @@ class _CategoryListViewState extends State<CategoryListView> {
   final ScrollUtils _scrollUtils = ScrollUtils();
 
 _onTap(int index) {
-    _scrollUtils.scrollToDirection(widget.coffeModel[index].rowKey);
+    
     setState(() {
       currentTub = index;
     });
+    //_scrollUtils.scrollToDirection(widget.coffeModel[index].rowKey);
     _scrollUtils.scrollToDirection(widget.coffeModel[index].columnKey);
   }
   
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     currentTub = widget.currentTub;
   }
@@ -43,7 +43,7 @@ _onTap(int index) {
             TextButton(
               style: TextButton.styleFrom(
                 backgroundColor:
-                    widget.currentTub == index ? AppColors.mainColor : Colors.white,
+                    widget.currentTub == index ? AppColors.mainColor : AppColors.whiteColor,
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16))),
               ),
@@ -55,7 +55,7 @@ _onTap(int index) {
                 widget.coffeModel[index].title,
                 style: TextStyle(
                   fontSize: 14,
-                  color: widget.currentTub == index ? AppColors.whiteColor : Colors.black,
+                  color: widget.currentTub == index ? AppColors.whiteColor : AppColors.textColor,
                 ),
               ),
             ),

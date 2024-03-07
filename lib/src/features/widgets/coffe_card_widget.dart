@@ -48,7 +48,7 @@ class _CoffeCardState extends State<CoffeCard> {
                   color: AppColors.mainColor,
                 ),
                 child: const Center(
-                    child: Text('-', style: TextStyle(color: Colors.white))),
+                    child: Text('-', style: TextStyle(color: AppColors.whiteColor))),
               ),
             ),
             Container(
@@ -61,7 +61,7 @@ class _CoffeCardState extends State<CoffeCard> {
               child: Center(
                   child: Text(
                 _count.toString(),
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: AppColors.whiteColor),
               )),
             ),
             GestureDetector(
@@ -74,7 +74,7 @@ class _CoffeCardState extends State<CoffeCard> {
                   color: AppColors.mainColor,
                 ),
                 child: const Center(
-                    child: Text('+', style: TextStyle(color: Colors.white))),
+                    child: Text('+', style: TextStyle(color: AppColors.whiteColor))),
               ),
             ),
           ],
@@ -93,7 +93,7 @@ class _CoffeCardState extends State<CoffeCard> {
           child: Center(
               child: Text(
             '${widget.price.toString()} руб.',
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(color: AppColors.whiteColor),
           )),
         ),
       );
@@ -114,7 +114,7 @@ class _CoffeCardState extends State<CoffeCard> {
         children: [
           Image.network(widget.image, height: 100, width: 100),
           
-          Text(widget.name,style: TextStyle(fontSize: 16)),
+          Text(widget.name,style: Theme.of(context).textTheme.bodyMedium),
           
           _priceOrCount(),
 

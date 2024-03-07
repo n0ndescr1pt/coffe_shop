@@ -36,21 +36,22 @@ class _MenuScreenState extends State<MenuScreen> {
   void _onScrollEvent() {
     double currentToDownScroll = 0;
     for (int i = 0; i <= countWidgetDisplay; i++) {
-      currentToDownScroll += widget.coffeModel[i].drinks.length * 245 / 2;
+      currentToDownScroll += (widget.coffeModel[i].drinks.length * 210 / 2);
     }
 
     if (_scrollController.offset.round() > currentToDownScroll) {
       setState(() {
         countWidgetDisplay++;
         currentTub = countWidgetDisplay;
+        
       });
       _scrollUtils.scrollToDirection(widget.coffeModel[countWidgetDisplay].rowKey);
     }
-    
+
     if (countWidgetDisplay > 0) {
       double currentToUpScroll = 0;
       for (int i = 0; i <= countWidgetDisplay - 1; i++) {
-        currentToUpScroll += widget.coffeModel[i].drinks.length * 245 / 2;
+        currentToUpScroll += (widget.coffeModel[i].drinks.length * 210 / 2);
       }
 
       if (_scrollController.offset.round() < currentToUpScroll) {
