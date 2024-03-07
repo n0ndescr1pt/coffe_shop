@@ -1,37 +1,36 @@
 import 'package:coffe_shop/src/features/menu/models/coffee_model.dart';
+import 'package:coffe_shop/src/features/menu/utils/scroll_utils.dart';
 import 'package:coffe_shop/src/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CategoryListView extends StatefulWidget {
   final List<CoffeModel> coffeModel;
-  const CategoryListView({super.key, required this.coffeModel});
+  final int currentTub;
+  const CategoryListView({super.key, required this.coffeModel, required this.currentTub});
 
   @override
   State<CategoryListView> createState() => _CategoryListViewState();
 }
 
 class _CategoryListViewState extends State<CategoryListView> {
+  late int currentTub;
+  final ScrollUtils _scrollUtils = ScrollUtils();
 
-  void scrollToDirection(GlobalKey key) {
-    final targetContext = key.currentContext;
-    if (targetContext != null) {
-      Scrollable.ensureVisible(
-        targetContext,
-        duration: const Duration(milliseconds: 350),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
-
-  _onTap(int index) {
-    scrollToDirection(widget.coffeModel[index].rowKey);
+_onTap(int index) {
+    _scrollUtils.scrollToDirection(widget.coffeModel[index].rowKey);
     setState(() {
-      _currentTub = index;
+      currentTub = index;
     });
-    scrollToDirection(widget.coffeModel[index].columnKey);
+    _scrollUtils.scrollToDirection(widget.coffeModel[index].columnKey);
+  }
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    currentTub = widget.currentTub;
   }
 
-  int _currentTub = 0;
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -44,7 +43,7 @@ class _CategoryListViewState extends State<CategoryListView> {
             TextButton(
               style: TextButton.styleFrom(
                 backgroundColor:
-                    _currentTub == index ? AppColors.mainColor : Colors.white,
+                    widget.currentTub == index ? AppColors.mainColor : Colors.white,
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16))),
               ),
@@ -56,7 +55,7 @@ class _CategoryListViewState extends State<CategoryListView> {
                 widget.coffeModel[index].title,
                 style: TextStyle(
                   fontSize: 14,
-                  color: _currentTub == index ? Colors.white : Colors.black,
+                  color: widget.currentTub == index ? Colors.white : Colors.black,
                 ),
               ),
             ),

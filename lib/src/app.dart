@@ -55,6 +55,8 @@ class _CoffeeShopAppState extends State<CoffeeShopApp> {
           rowKey: GlobalKey(),
           drinks: [
             DrinkModel(name: "name 1", image: 'https://avatars.mds.yandex.net/i?id=3582d80bd3d144efb4a11c84197d51d9d49bc46d-12525650-images-thumbs&n=13', price: 123),
+            DrinkModel(name: "name 1", image: 'https://avatars.mds.yandex.net/i?id=3582d80bd3d144efb4a11c84197d51d9d49bc46d-12525650-images-thumbs&n=13', price: 123),
+            DrinkModel(name: "name 1", image: 'https://avatars.mds.yandex.net/i?id=3582d80bd3d144efb4a11c84197d51d9d49bc46d-12525650-images-thumbs&n=13', price: 123),
             DrinkModel(name: "name 2", image: 'https://avatars.mds.yandex.net/i?id=3582d80bd3d144efb4a11c84197d51d9d49bc46d-12525650-images-thumbs&n=13', price: 123)
           ]),
       CoffeModel(
@@ -62,6 +64,7 @@ class _CoffeeShopAppState extends State<CoffeeShopApp> {
           columnKey: GlobalKey(),
           rowKey: GlobalKey(),
           drinks: [
+            DrinkModel(name: "name 1", image: 'https://avatars.mds.yandex.net/i?id=3582d80bd3d144efb4a11c84197d51d9d49bc46d-12525650-images-thumbs&n=13', price: 123),
             DrinkModel(name: "name 1", image: 'https://avatars.mds.yandex.net/i?id=3582d80bd3d144efb4a11c84197d51d9d49bc46d-12525650-images-thumbs&n=13', price: 123),
             DrinkModel(name: "name 2", image: 'https://avatars.mds.yandex.net/i?id=3582d80bd3d144efb4a11c84197d51d9d49bc46d-12525650-images-thumbs&n=13', price: 123)
           ]),

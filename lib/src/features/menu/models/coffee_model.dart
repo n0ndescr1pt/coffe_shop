@@ -7,9 +7,10 @@ class CoffeModel {
   final GlobalKey rowKey;
   final List<DrinkModel> drinks;
 
-  CoffeModel(
-      {required this.title,
-      required this.columnKey,
-      required this.rowKey,
-      required this.drinks});
+  CoffeModel({
+    required this.title,
+    required this.columnKey,
+    required this.rowKey,
+    required this.drinks,
+  });
 }
