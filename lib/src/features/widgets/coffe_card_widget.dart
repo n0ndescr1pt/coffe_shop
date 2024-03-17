@@ -1,15 +1,12 @@
+import 'package:coffe_shop/src/features/menu/models/drink_model.dart';
 import 'package:coffe_shop/src/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CoffeCard extends StatefulWidget {
-  final String name;
-  final String image;
-  final int price;
+  final DrinkModel drinkModel;
   const CoffeCard({
     super.key,
-    required this.name,
-    required this.image,
-    required this.price,
+    required this.drinkModel,
   });
 
   @override
@@ -48,7 +45,8 @@ class _CoffeCardState extends State<CoffeCard> {
                   color: AppColors.mainColor,
                 ),
                 child: const Center(
-                    child: Text('-', style: TextStyle(color: AppColors.whiteColor))),
+                    child: Text('-',
+                        style: TextStyle(color: AppColors.whiteColor))),
               ),
             ),
             Container(
@@ -74,7 +72,8 @@ class _CoffeCardState extends State<CoffeCard> {
                   color: AppColors.mainColor,
                 ),
                 child: const Center(
-                    child: Text('+', style: TextStyle(color: AppColors.whiteColor))),
+                    child: Text('+',
+                        style: TextStyle(color: AppColors.whiteColor))),
               ),
             ),
           ],
@@ -92,7 +91,7 @@ class _CoffeCardState extends State<CoffeCard> {
           ),
           child: Center(
               child: Text(
-            '${widget.price.toString()} руб.',
+            '${widget.drinkModel.price.toString()} руб.',
             style: const TextStyle(color: AppColors.whiteColor),
           )),
         ),
@@ -103,7 +102,6 @@ class _CoffeCardState extends State<CoffeCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 180,
       height: 192,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -112,12 +110,9 @@ class _CoffeCardState extends State<CoffeCard> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Image.network(widget.image, height: 100, width: 100),
-          
-          Text(widget.name,style: Theme.of(context).textTheme.bodyMedium),
-          
+          Image.network(widget.drinkModel.image, height: 100, width: 100),
+          Text(widget.drinkModel.name, style: Theme.of(context).textTheme.bodyMedium),
           _priceOrCount(),
-
         ],
       ),
     );

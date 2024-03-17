@@ -1,105 +1,61 @@
+import 'package:coffe_shop/src/features/menu/data/coffe_services.dart';
 import 'package:coffe_shop/src/features/menu/models/coffee_model.dart';
 import 'package:coffe_shop/src/features/menu/utils/scroll_utils.dart';
 import 'package:coffe_shop/src/features/widgets/category_listview.dart';
 import 'package:coffe_shop/src/features/widgets/coffe_card_widget.dart';
 import 'package:coffe_shop/src/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class MenuScreen extends StatefulWidget {
-  final List<CoffeModel> coffeModel;
-  const MenuScreen({super.key, required this.coffeModel});
+  const MenuScreen({super.key});
 
   @override
   State<MenuScreen> createState() => _MenuScreenState();
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  int countWidgetDisplay = 0;
+  final ItemScrollController itemController = ItemScrollController();
+  final ItemPositionsListener itemListener = ItemPositionsListener.create();
+
+  final ItemScrollController categoryItemController = ItemScrollController();
+
   int currentTub = 0;
   final ScrollUtils _scrollUtils = ScrollUtils();
-  final ScrollController _scrollController = ScrollController();
-  late List<Widget> _sliversWidget;
+
+  CoffeServices coffeServices = CoffeServices();
+  List<CoffeModel> drinkList = [CoffeModel(title: "null", drinks: [])];
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScrollEvent);
-    getSliverWidgets(widget.coffeModel);
+    _fetchData();
+    itemListener.itemPositions.addListener(_onScrollEvent);
   }
-  //late List<CoffeModel> _coffeModel;
 
-  //_fetchCoffeMenu(){
-  //  //get from API
-  //  _coffeModel =
-  //}
+  void _fetchData() async {
+    try {
+      final List<CoffeModel> list = await coffeServices.getData();
+      setState(() {
+        drinkList = list;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+
 
   void _onScrollEvent() {
-    double currentToDownScroll = 0;
-    for (int i = 0; i <= countWidgetDisplay; i++) {
-      currentToDownScroll += (widget.coffeModel[i].drinks.length * 210 / 2);
-    }
-
-    if (_scrollController.offset.round() > currentToDownScroll) {
+    final indices = itemListener.itemPositions.value
+        .map((e) => e.index)
+        .toList();
+    if (currentTub != indices[0]) {
       setState(() {
-        countWidgetDisplay++;
-        currentTub = countWidgetDisplay;
-        
+        currentTub = indices[0];
       });
-      _scrollUtils.scrollToDirection(widget.coffeModel[countWidgetDisplay].rowKey);
+      _scrollUtils.scrollToDirection(categoryItemController, currentTub);
     }
-
-    if (countWidgetDisplay > 0) {
-      double currentToUpScroll = 0;
-      for (int i = 0; i <= countWidgetDisplay - 1; i++) {
-        currentToUpScroll += (widget.coffeModel[i].drinks.length * 210 / 2);
-      }
-
-      if (_scrollController.offset.round() < currentToUpScroll) {
-        setState(() {
-          countWidgetDisplay--;
-          currentTub = countWidgetDisplay;
-        });
-        _scrollUtils.scrollToDirection(widget.coffeModel[countWidgetDisplay].rowKey);
-      }
-    }
-  }
-
-  //final extentAfter = _scrollController.position;
-
-//this method return all slivers in customScrollView
-  void getSliverWidgets(List<CoffeModel> coffeModel) {
-    final List<Widget> list = [];
-    for (int i = 0; i < coffeModel.length; i++) {
-      list.add(SliverPadding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        sliver: SliverToBoxAdapter(
-            child: Text(
-          coffeModel[i].title,
-          key: coffeModel[i].columnKey,
-          style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-        )),
-      ));
-      list.add(
-        SliverGrid(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
-            crossAxisCount: 2,
-          ),
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              return CoffeCard(
-                name: coffeModel[i].drinks[index].name,
-                image: coffeModel[i].drinks[index].image,
-                price: coffeModel[i].drinks[index].price,
-              );
-            },
-            childCount: coffeModel[i].drinks.length,
-          ),
-        ),
-      );
-    }
-    _sliversWidget = list;
   }
 
   @override
@@ -114,16 +70,44 @@ class _MenuScreenState extends State<MenuScreen> {
         title: SizedBox(
           height: 35,
           child: CategoryListView(
-            coffeModel: widget.coffeModel,
+            itemController: itemController,
+            coffeModel: drinkList,
+            categoryItemController: categoryItemController,
             currentTub: currentTub,
           ),
         ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: _sliversWidget,
+        child: ScrollablePositionedList.builder(
+          itemCount: drinkList.length,
+          itemScrollController: itemController,
+          itemPositionsListener: itemListener,
+          itemBuilder: (context, index) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  drinkList[index].title,
+                  style: const TextStyle(
+                      fontSize: 32, fontWeight: FontWeight.bold),
+                ),
+                GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                  ),
+                  itemCount: drinkList[index].drinks.length,
+                  itemBuilder: (BuildContext context, int jindex) {
+                    return CoffeCard(
+                      drinkModel: drinkList[index].drinks[jindex],
+                    );
+                  },
+                )
+              ],
+            );
+          },
         ),
       ),
     );
