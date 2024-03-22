@@ -4,7 +4,6 @@ import 'package:coffe_shop/src/features/menu/models/drink_model.dart';
 import 'package:http/http.dart' as http;
 
 class CoffeServices {
-
   Future<List<DrinkModel>> getDrinks() async {
     final response = await http.get(
         Uri.parse('https://coffeeshop.academy.effective.band/api/v1/products'));
@@ -36,7 +35,8 @@ class CoffeServices {
                 name: listDrinks[i].name,
                 image: listDrinks[i].image,
                 price: listDrinks[i].price,
-                category: listDrinks[i].category),
+                category: listDrinks[i].category,
+                productID: listDrinks[i].productID),
           );
         }
       }

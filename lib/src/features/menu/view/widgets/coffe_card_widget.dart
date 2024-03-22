@@ -1,6 +1,8 @@
 import 'package:coffe_shop/src/features/menu/models/drink_model.dart';
+import 'package:coffe_shop/src/features/order/bloc/order_list_bloc.dart';
 import 'package:coffe_shop/src/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CoffeCard extends StatefulWidget {
   final DrinkModel drinkModel;
@@ -17,15 +19,37 @@ class _CoffeCardState extends State<CoffeCard> {
   int _count = 0;
 
   _incrementCouner() {
-    setState(() {
-      if (_count < 10) _count++;
-    });
+    if (_count < 10) {
+      setState(() {
+        _count++;
+      });
+      context.read<OrderListBloc>().add(AddToOrderEvent(
+          drink: DrinkModel(
+              category: widget.drinkModel.category,
+              id: widget.drinkModel.id,
+              name: widget.drinkModel.name,
+              image: widget.drinkModel.image,
+              price: widget.drinkModel.price,
+              counter: _count,
+              productID: widget.drinkModel.productID)));
+    }
   }
 
   _decrementCouner() {
-    setState(() {
-      if (_count > 0) _count--;
-    });
+    if (_count > 0) {
+      setState(() {
+        _count--;
+      });
+      context.read<OrderListBloc>().add(RemoveFromOrderEvent(
+          drink: DrinkModel(
+              category: widget.drinkModel.category,
+              id: widget.drinkModel.id,
+              name: widget.drinkModel.name,
+              image: widget.drinkModel.image,
+              price: widget.drinkModel.price,
+              counter: _count,
+              productID: widget.drinkModel.productID)));
+    }
   }
 
   Widget _priceOrCount() {
@@ -111,7 +135,8 @@ class _CoffeCardState extends State<CoffeCard> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Image.network(widget.drinkModel.image, height: 100, width: 100),
-          Text(widget.drinkModel.name, style: Theme.of(context).textTheme.bodyMedium),
+          Text(widget.drinkModel.name,
+              style: Theme.of(context).textTheme.bodyMedium),
           _priceOrCount(),
         ],
       ),

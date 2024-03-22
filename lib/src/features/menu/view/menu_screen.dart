@@ -1,8 +1,9 @@
 import 'package:coffe_shop/src/features/menu/bloc/coffe_list_bloc.dart';
 import 'package:coffe_shop/src/features/menu/data/coffe_services.dart';
 import 'package:coffe_shop/src/features/menu/utils/scroll_utils.dart';
-import 'package:coffe_shop/src/features/widgets/category_listview.dart';
-import 'package:coffe_shop/src/features/widgets/coffe_card_widget.dart';
+import 'package:coffe_shop/src/features/menu/view/widgets/category_listview.dart';
+import 'package:coffe_shop/src/features/menu/view/widgets/coffe_card_widget.dart';
+import 'package:coffe_shop/src/features/order/bloc/order_list_bloc.dart';
 import 'package:coffe_shop/src/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,8 +61,11 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CoffeListBloc>(
-      create: (context) => coffeListBloc,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => CoffeListBloc()),
+        BlocProvider(create: (context) => OrderListBloc({}))
+      ],
       child: BlocBuilder<CoffeListBloc, CoffeListState>(
         bloc: coffeListBloc,
         builder: (context, state) {
@@ -119,7 +123,8 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
             );
           }
-          return const Scaffold(body: Center(child: CircularProgressIndicator()));
+          return const Scaffold(
+              body: Center(child: CircularProgressIndicator()));
         },
       ),
     );
