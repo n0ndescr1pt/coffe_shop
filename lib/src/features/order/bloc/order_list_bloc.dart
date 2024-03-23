@@ -46,5 +46,10 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
 
       emit(DoOrderState(drinks: drinks.values.toList(), summ: price));
     });
+
+    on<ClearOrderEvent>((event, emit){
+      drinks.clear();
+      emit(DoOrderState(drinks: drinks.values.toList(), summ: 0));
+    });
   }
 }

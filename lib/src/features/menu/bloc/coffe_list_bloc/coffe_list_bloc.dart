@@ -12,11 +12,6 @@ class CoffeListBloc extends Bloc<CoffeListEvent, CoffeListState> {
       final coffeList = await coffeServices.getData();
       emit(CoffeListLoaded(coffeList: coffeList));
     });
-
-     on<LoadCoffeListEvent2>((event, emit) async {
-      final coffeList = await coffeServices.getData();
-      emit(CoffeListLoaded(coffeList: []));
-    });
   }
   final CoffeServices coffeServices;
 }

@@ -1,6 +1,4 @@
-import 'package:coffe_shop/src/features/menu/bloc/coffe_card_bloc/coffe_card_bloc.dart';
 import 'package:coffe_shop/src/features/menu/bloc/coffe_list_bloc/coffe_list_bloc.dart';
-import 'package:coffe_shop/src/features/menu/data/coffe_services.dart';
 import 'package:coffe_shop/src/features/menu/utils/scroll_utils.dart';
 import 'package:coffe_shop/src/features/menu/view/widgets/category_listview.dart';
 import 'package:coffe_shop/src/features/menu/view/widgets/coffe_card_widget.dart';
@@ -29,8 +27,7 @@ class _MenuScreenState extends State<MenuScreen> {
   final ScrollUtils _scrollUtils = ScrollUtils();
 
   final CoffeListBloc coffeListBloc = GetIt.I<CoffeListBloc>();
-  final OrderListBloc orderListBloc = OrderListBloc({});
-  final CoffeCardBloc coffeCardBloc = CoffeCardBloc();
+  final OrderListBloc orderListBloc = GetIt.I<OrderListBloc>();
 
   @override
   void initState() {
@@ -81,7 +78,9 @@ class _MenuScreenState extends State<MenuScreen> {
               floatingActionButton: BlocBuilder<OrderListBloc, OrderListState>(
                 bloc: orderListBloc,
                 builder: (context, state) {
+                  print("asdad");
                   if (state is DoOrderState) {
+                    print(state.drinks);
                     return Visibility(
                         visible: state.drinks.isNotEmpty,
                         child: SizedBox(
@@ -89,6 +88,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           width: 99,
                           child: FloatingActionButton.extended(
                             onPressed: () {
+                              print(state.drinks);
                               showModalBottomSheet(
                                 showDragHandle: true,
                                 context: context,
@@ -106,6 +106,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           ),
                         ));
                   }
+
                   return Container();
                 },
               ),

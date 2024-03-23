@@ -125,20 +125,31 @@ class _CoffeCardState extends State<CoffeCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 192,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Image.network(widget.drinkModel.image, height: 100, width: 100),
-          Text(widget.drinkModel.name,
-              style: Theme.of(context).textTheme.bodyMedium),
-          _priceOrCount(),
-        ],
+    return BlocListener<OrderListBloc, OrderListState>(
+      listener: (context, state) {
+        if (state is DoOrderState) {
+          if (state.summ == 0) {
+            setState(() {
+              _count = 0;
+            });
+          }
+        }
+      },
+      child: Container(
+        height: 192,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Image.network(widget.drinkModel.image, height: 100, width: 100),
+            Text(widget.drinkModel.name,
+                style: Theme.of(context).textTheme.bodyMedium),
+            _priceOrCount(),
+          ],
+        ),
       ),
     );
   }

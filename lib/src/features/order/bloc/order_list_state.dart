@@ -10,4 +10,8 @@ class DoOrderState extends OrderListState {
   final double summ;
 
   DoOrderState({required this.drinks,required this.summ});
+
+
 }
+
+class ClearState extends OrderListState {}

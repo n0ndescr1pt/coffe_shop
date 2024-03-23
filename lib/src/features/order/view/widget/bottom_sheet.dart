@@ -23,7 +23,9 @@ class MyBottomSheet extends StatelessWidget {
               const Text("Ваш заказ",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    GetIt.I<OrderListBloc>().add(ClearOrderEvent());
+                  },
                   icon: const Icon(Icons.restore_from_trash_outlined)),
             ],
           ),
@@ -66,7 +68,6 @@ class MyBottomSheet extends StatelessWidget {
                     Navigator.pop(ctx);
                   }
                   GetIt.I<OrderListBloc>().add(ClearOrderEvent());
-                  GetIt.I<CoffeListBloc>().add(LoadCoffeListEvent2());
                 },
                 child: const Text("Оформить заказ",
                     style: TextStyle(color: Colors.white))),
