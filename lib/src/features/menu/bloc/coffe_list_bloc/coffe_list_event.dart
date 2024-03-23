@@ -4,7 +4,8 @@ part of 'coffe_list_bloc.dart';
 sealed class CoffeListEvent {}
 
 class LoadCoffeListEvent extends CoffeListEvent {
-final CoffeServices coffeServices;
-
-  LoadCoffeListEvent({required this.coffeServices});
 }
+
+class LoadCoffeListEvent2 extends CoffeListEvent {
+}
+

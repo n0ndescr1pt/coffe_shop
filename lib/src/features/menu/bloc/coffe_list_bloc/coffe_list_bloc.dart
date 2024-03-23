@@ -7,13 +7,16 @@ part 'coffe_list_event.dart';
 part 'coffe_list_state.dart';
 
 class CoffeListBloc extends Bloc<CoffeListEvent, CoffeListState> {
-  CoffeListBloc() : super(CoffeListInitial()) {
-
+  CoffeListBloc({required this.coffeServices}) : super(CoffeListInitial()) {
     on<LoadCoffeListEvent>((event, emit) async {
-
-      final coffeList = await event.coffeServices.getData();
+      final coffeList = await coffeServices.getData();
       emit(CoffeListLoaded(coffeList: coffeList));
     });
-  }
 
+     on<LoadCoffeListEvent2>((event, emit) async {
+      final coffeList = await coffeServices.getData();
+      emit(CoffeListLoaded(coffeList: []));
+    });
+  }
+  final CoffeServices coffeServices;
 }

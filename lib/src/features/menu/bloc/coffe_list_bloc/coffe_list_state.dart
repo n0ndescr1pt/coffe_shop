@@ -12,3 +12,9 @@ class CoffeListLoaded extends CoffeListState {
 
   CoffeListLoaded({required this.coffeList});
 }
+
+class CoffeListLoaded2 extends CoffeListState {
+  final List<CoffeModel> coffeList;
+
+  CoffeListLoaded2({required this.coffeList});
+}

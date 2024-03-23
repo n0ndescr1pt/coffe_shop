@@ -15,4 +15,4 @@ class RemoveFromOrderEvent  extends OrderListEvent {
   RemoveFromOrderEvent({required this.drink});
 }
 
-class DoOrderEvent  extends OrderListEvent{}
+class ClearOrderEvent  extends OrderListEvent{}

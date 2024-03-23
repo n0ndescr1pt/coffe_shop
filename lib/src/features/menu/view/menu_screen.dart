@@ -1,4 +1,5 @@
-import 'package:coffe_shop/src/features/menu/bloc/coffe_list_bloc.dart';
+import 'package:coffe_shop/src/features/menu/bloc/coffe_card_bloc/coffe_card_bloc.dart';
+import 'package:coffe_shop/src/features/menu/bloc/coffe_list_bloc/coffe_list_bloc.dart';
 import 'package:coffe_shop/src/features/menu/data/coffe_services.dart';
 import 'package:coffe_shop/src/features/menu/utils/scroll_utils.dart';
 import 'package:coffe_shop/src/features/menu/view/widgets/category_listview.dart';
@@ -8,6 +9,7 @@ import 'package:coffe_shop/src/features/order/view/widget/bottom_sheet.dart';
 import 'package:coffe_shop/src/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -26,15 +28,14 @@ class _MenuScreenState extends State<MenuScreen> {
   int currentTub = 0;
   final ScrollUtils _scrollUtils = ScrollUtils();
 
-  final CoffeServices coffeServices = CoffeServices();
-
-  final CoffeListBloc coffeListBloc = CoffeListBloc();
+  final CoffeListBloc coffeListBloc = GetIt.I<CoffeListBloc>();
   final OrderListBloc orderListBloc = OrderListBloc({});
+  final CoffeCardBloc coffeCardBloc = CoffeCardBloc();
 
   @override
   void initState() {
     super.initState();
-    coffeListBloc.add(LoadCoffeListEvent(coffeServices: coffeServices));
+    coffeListBloc.add(LoadCoffeListEvent());
     itemListener.itemPositions.addListener(_onScrollEvent);
   }
 
@@ -91,14 +92,16 @@ class _MenuScreenState extends State<MenuScreen> {
                               showModalBottomSheet(
                                 showDragHandle: true,
                                 context: context,
-                                builder: (ctx) =>
-                                    MyBottomSheet(drinks: state.drinks),
+                                builder: (ctx) => MyBottomSheet(
+                                    drinks: state.drinks, ctx: ctx),
                               );
                             },
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.blue[200],
                             icon: const Icon(Icons.shopping_bag_outlined),
                             label: Text(
-                              state.summ.round().toString(),
-                              style: Theme.of(context).textTheme.headlineMedium,
+                              "${state.summ.round()} ₽",
+                              style: const TextStyle(fontSize: 18),
                             ),
                           ),
                         ));
