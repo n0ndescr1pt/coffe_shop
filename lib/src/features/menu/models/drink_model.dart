@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 
 class DrinkModel {
   final int id;

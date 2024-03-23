@@ -4,6 +4,7 @@ import 'package:coffe_shop/src/features/menu/utils/scroll_utils.dart';
 import 'package:coffe_shop/src/features/menu/view/widgets/category_listview.dart';
 import 'package:coffe_shop/src/features/menu/view/widgets/coffe_card_widget.dart';
 import 'package:coffe_shop/src/features/order/bloc/order_list_bloc.dart';
+import 'package:coffe_shop/src/features/order/view/widget/bottom_sheet.dart';
 import 'package:coffe_shop/src/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,27 +27,16 @@ class _MenuScreenState extends State<MenuScreen> {
   final ScrollUtils _scrollUtils = ScrollUtils();
 
   final CoffeServices coffeServices = CoffeServices();
-  //List<CoffeModel> drinkList = [CoffeModel(title: "null", drinks: [])];
+
   final CoffeListBloc coffeListBloc = CoffeListBloc();
+  final OrderListBloc orderListBloc = OrderListBloc({});
 
   @override
   void initState() {
     super.initState();
     coffeListBloc.add(LoadCoffeListEvent(coffeServices: coffeServices));
-    //_fetchData();
     itemListener.itemPositions.addListener(_onScrollEvent);
   }
-
-  //void _fetchData() async {
-  //  try {
-  //    final List<CoffeModel> list = await coffeServices.getData();
-  //    setState(() {
-  //      drinkList = list;
-  //    });
-  //  } catch (e) {
-  //    print(e);
-  //  }
-  //}
 
   void _onScrollEvent() {
     final indices =
@@ -63,8 +53,8 @@ class _MenuScreenState extends State<MenuScreen> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => CoffeListBloc()),
-        BlocProvider(create: (context) => OrderListBloc({}))
+        BlocProvider(create: (context) => coffeListBloc),
+        BlocProvider(create: (context) => orderListBloc)
       ],
       child: BlocBuilder<CoffeListBloc, CoffeListState>(
         bloc: coffeListBloc,
@@ -86,6 +76,35 @@ class _MenuScreenState extends State<MenuScreen> {
                     currentTub: currentTub,
                   ),
                 ),
+              ),
+              floatingActionButton: BlocBuilder<OrderListBloc, OrderListState>(
+                bloc: orderListBloc,
+                builder: (context, state) {
+                  if (state is DoOrderState) {
+                    return Visibility(
+                        visible: state.drinks.isNotEmpty,
+                        child: SizedBox(
+                          height: 45,
+                          width: 99,
+                          child: FloatingActionButton.extended(
+                            onPressed: () {
+                              showModalBottomSheet(
+                                showDragHandle: true,
+                                context: context,
+                                builder: (ctx) =>
+                                    MyBottomSheet(drinks: state.drinks),
+                              );
+                            },
+                            icon: const Icon(Icons.shopping_bag_outlined),
+                            label: Text(
+                              state.summ.round().toString(),
+                              style: Theme.of(context).textTheme.headlineMedium,
+                            ),
+                          ),
+                        ));
+                  }
+                  return Container();
+                },
               ),
               body: Padding(
                 padding: const EdgeInsets.all(16.0),

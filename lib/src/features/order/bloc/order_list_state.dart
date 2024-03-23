@@ -7,6 +7,7 @@ final class OrderListInitial extends OrderListState {}
 
 class DoOrderState extends OrderListState {
   final List<DrinkModel> drinks;
+  final double summ;
 
-  DoOrderState({required this.drinks});
+  DoOrderState({required this.drinks,required this.summ});
 }
