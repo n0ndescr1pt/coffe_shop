@@ -78,7 +78,6 @@ class _MenuScreenState extends State<MenuScreen> {
               floatingActionButton: BlocBuilder<OrderListBloc, OrderListState>(
                 bloc: orderListBloc,
                 builder: (context, state) {
-                  print("asdad");
                   if (state is DoOrderState) {
                     print(state.drinks);
                     return Visibility(
@@ -88,12 +87,13 @@ class _MenuScreenState extends State<MenuScreen> {
                           width: 99,
                           child: FloatingActionButton.extended(
                             onPressed: () {
-                              print(state.drinks);
+                              print("rebuild");
                               showModalBottomSheet(
                                 showDragHandle: true,
                                 context: context,
                                 builder: (ctx) => MyBottomSheet(
-                                    drinks: state.drinks, ctx: ctx),
+                                    drinks: state.drinks,
+                                    ctx: ctx),
                               );
                             },
                             foregroundColor: Colors.white,
