@@ -1,6 +1,5 @@
-import 'package:coffe_shop/src/features/menu/models/dto/drink_dto.dart';
 
-class DrinkModel {
+class DrinkDto {
   final int id;
   final String category;
   final String name;
@@ -9,7 +8,7 @@ class DrinkModel {
   final int productID;
   final int? counter;
 
-  const DrinkModel(
+  const DrinkDto(
       {required this.id,
       required this.name,
       required this.image,
@@ -18,14 +17,14 @@ class DrinkModel {
       required this.productID,
       this.counter});
 
-  factory DrinkModel.fromDto(DrinkDto dto) {
-    return DrinkModel(
-      name: dto.name,
-      image: dto.image,
-      price: dto.price,
-      id: dto.id,
-      category: dto.category,
-      productID: dto.productID,
+  factory DrinkDto.fromJson(Map<String, dynamic> json) {
+    return DrinkDto(
+      name: json['name'],
+      image: json['imageUrl'],
+      price: json['prices'][0]['value'],
+      id: json['category']['id'],
+      category: json['category']['slug'],
+      productID: json['id'],
     );
   }
 
