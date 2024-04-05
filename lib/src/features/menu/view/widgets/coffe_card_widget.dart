@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coffe_shop/src/features/menu/models/drink_model.dart';
 import 'package:coffe_shop/src/features/order/bloc/order_list_bloc.dart';
 import 'package:coffe_shop/src/theme/app_colors.dart';
@@ -144,7 +145,13 @@ class _CoffeCardState extends State<CoffeCard> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Image.network(widget.drinkModel.image, height: 100, width: 100),
+            CachedNetworkImage(
+              imageUrl: widget.drinkModel.image,
+              height: 100,
+              width: 100,
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            ),
             Text(widget.drinkModel.name,
                 style: Theme.of(context).textTheme.bodyMedium),
             _priceOrCount(),

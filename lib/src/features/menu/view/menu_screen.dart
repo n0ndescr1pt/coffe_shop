@@ -79,7 +79,6 @@ class _MenuScreenState extends State<MenuScreen> {
                 bloc: orderListBloc,
                 builder: (context, state) {
                   if (state is DoOrderState) {
-                    print(state.drinks);
                     return Visibility(
                         visible: state.drinks.isNotEmpty,
                         child: SizedBox(
