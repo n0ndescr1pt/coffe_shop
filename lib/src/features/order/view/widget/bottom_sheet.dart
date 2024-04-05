@@ -1,4 +1,4 @@
-import 'package:coffe_shop/src/features/menu/data/coffe_services.dart';
+import 'package:coffe_shop/src/features/menu/bloc/coffe_list_bloc/coffe_list_bloc.dart';
 import 'package:coffe_shop/src/features/menu/models/drink_model.dart';
 import 'package:coffe_shop/src/features/order/bloc/order_list_bloc.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +77,8 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                   ),
                 ),
                 onPressed: () async {
-                  await GetIt.I<CoffeServices>().sendOrder(context);
+                  GetIt.I<CoffeListBloc>()
+                      .add(SendOrderEvent(context: context));
                   if (widget.ctx.mounted) {
                     Navigator.pop(widget.ctx);
                   }

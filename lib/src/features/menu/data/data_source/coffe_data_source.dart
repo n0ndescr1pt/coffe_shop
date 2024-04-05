@@ -1,19 +1,28 @@
 import 'dart:convert';
-import 'package:coffe_shop/src/features/menu/models/coffee_model.dart';
-import 'package:coffe_shop/src/features/menu/models/drink_model.dart';
+import 'package:coffe_shop/src/features/menu/models/dto/coffe_dto.dart';
+import 'package:coffe_shop/src/features/menu/models/dto/drink_dto.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:http/http.dart' as http;
 
-class CoffeServices {
-  Future<List<DrinkModel>> getDrinks() async {
-    final response = await http.get(
-        Uri.parse('https://coffeeshop.academy.effective.band/api/v1/products'));
+abstract class ICoffeDataSource {
+  Future<List<DrinkDto>> getDrinks();
+  Future<List<CoffeDto>> getData();
+  Future<Map<int, String>> getCategoryId();
+  Future<void> sendOrder(BuildContext context);
+}
 
-    final List<DrinkModel> drinkList = [];
+class CoffeDataSource implements ICoffeDataSource {
+  final Dio _dio;
+
+  const CoffeDataSource({required Dio dio}) : _dio = dio;
+  @override
+  Future<List<DrinkDto>> getDrinks() async {
+    final response = await _dio.get('/products');
+
+    final List<DrinkDto> drinkList = [];
     if (response.statusCode == 200) {
-      for (var element in jsonDecode(utf8.decode(response.bodyBytes))['data']) {
-        drinkList.add(DrinkModel.fromJson(element));
+      for (var element in response.data['data']) {
+        drinkList.add(DrinkDto.fromJson(element));
       }
       return drinkList;
     } else {
@@ -21,18 +30,21 @@ class CoffeServices {
     }
   }
 
-  Future<List<CoffeModel>> getData() async {
-    final List<CoffeModel> map = [];
+  @override
+  Future<List<CoffeDto>> getData() async {
+    print(1.1);
+    final List<CoffeDto> map = [];
+
     final listCategory = await getCategoryId();
-    print(listCategory);
-    final List<DrinkModel> listDrinks = await getDrinks();
+    print(1.2);
+    final List<DrinkDto> listDrinks = await getDrinks();
 
     listCategory.forEach((key, value) {
-      final List<DrinkModel> drinks = [];
+      final List<DrinkDto> drinks = [];
       for (int i = 0; i < listDrinks.length; i++) {
         if (listDrinks[i].id == key) {
           drinks.add(
-            DrinkModel(
+            DrinkDto(
                 id: listDrinks[i].id,
                 name: listDrinks[i].name,
                 image: listDrinks[i].image,
@@ -42,41 +54,39 @@ class CoffeServices {
           );
         }
       }
-      map.add(CoffeModel(title: value, drinks: drinks));
+      print(1.3);
+      map.add(CoffeDto(title: value, drinks: drinks));
     });
 
     return map;
   }
 
+  @override
   Future<Map<int, String>> getCategoryId() async {
-    final response = await http.get(Uri.parse(
-        'https://coffeeshop.academy.effective.band/api/v1/products/categories'));
+    final response = await _dio.get('/products/categories');
 
     final Map<int, String> categoryMap = {};
+
     if (response.statusCode == 200) {
-      for (var element in jsonDecode(utf8.decode(response.bodyBytes))['data']) {
+      for (var element in response.data['data']) {
         categoryMap[element['id']] = element['slug'];
       }
+
       return categoryMap;
     } else {
       throw Exception('failed to load');
     }
   }
 
+  @override
   Future<void> sendOrder(BuildContext context) async {
     final Map<String, dynamic> userData = {
       "positions": {"1": 12},
       "token": ""
     };
-    final response = await http.post(
-      Uri.parse('https://coffeeshop.academy.effective.band/api/v1/orders'),
-      body: json.encode(userData),
-      headers: {'Content-Type': 'application/json'},
-    );
-    print(response.statusCode);
+    final response = await _dio.post('/orders', data: userData);
     if (response.statusCode == 201) {
       if (context.mounted) {
-        print(" sadsd");
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Заказ создан"),
           duration: Duration(seconds: 2),
