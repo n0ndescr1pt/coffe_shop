@@ -1,13 +1,12 @@
 import 'package:coffe_shop/src/features/menu/models/dto/coffe_dto.dart';
 import 'package:coffe_shop/src/features/menu/models/dto/drink_dto.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 abstract class ICoffeDataSource {
   Future<List<DrinkDto>> getDrinks();
   Future<List<CoffeDto>> getData();
   Future<Map<int, String>> getCategoryId();
-  Future<void> sendOrder(BuildContext context);
+  Future<bool> sendOrder();
 }
 
 class CoffeDataSource implements ICoffeDataSource {
@@ -31,20 +30,18 @@ class CoffeDataSource implements ICoffeDataSource {
 
   @override
   Future<List<CoffeDto>> getData() async {
-    print(1.1);
     final List<CoffeDto> map = [];
 
     final listCategory = await getCategoryId();
-    print(1.2);
     final List<DrinkDto> listDrinks = await getDrinks();
 
     listCategory.forEach((key, value) {
       final List<DrinkDto> drinks = [];
       for (int i = 0; i < listDrinks.length; i++) {
-        if (listDrinks[i].id == key) {
+        if (listDrinks[i].categoryID == key) {
           drinks.add(
             DrinkDto(
-                id: listDrinks[i].id,
+                categoryID: listDrinks[i].categoryID,
                 name: listDrinks[i].name,
                 image: listDrinks[i].image,
                 price: listDrinks[i].price,
@@ -53,8 +50,7 @@ class CoffeDataSource implements ICoffeDataSource {
           );
         }
       }
-      print(1.3);
-      map.add(CoffeDto(title: value, drinks: drinks));
+      map.add(CoffeDto(id: key, title: value, drinks: drinks));
     });
 
     return map;
@@ -78,26 +74,16 @@ class CoffeDataSource implements ICoffeDataSource {
   }
 
   @override
-  Future<void> sendOrder(BuildContext context) async {
+  Future<bool> sendOrder() async {
     final Map<String, dynamic> userData = {
       "positions": {"1": 12},
       "token": ""
     };
     final response = await _dio.post('/orders', data: userData);
     if (response.statusCode == 201) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Заказ создан"),
-          duration: Duration(seconds: 2),
-        ));
-      }
+      return true;
     } else {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Возникла ошибка при заказе"),
-          duration: Duration(seconds: 2),
-        ));
-      }
+      return false;
     }
   }
 }

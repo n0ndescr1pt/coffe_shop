@@ -86,13 +86,12 @@ class _MenuScreenState extends State<MenuScreen> {
                           width: 99,
                           child: FloatingActionButton.extended(
                             onPressed: () {
-                              print("rebuild");
                               showModalBottomSheet(
                                 showDragHandle: true,
                                 context: context,
                                 builder: (ctx) => MyBottomSheet(
                                     drinks: state.drinks,
-                                    ctx: ctx),
+                                    ctx: context),
                               );
                             },
                             foregroundColor: Colors.white,

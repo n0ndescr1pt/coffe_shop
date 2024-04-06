@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coffe_shop/src/features/menu/bloc/coffe_list_bloc/coffe_list_bloc.dart';
 import 'package:coffe_shop/src/features/menu/models/drink_model.dart';
 import 'package:coffe_shop/src/features/order/bloc/order_list_bloc.dart';
@@ -17,8 +18,8 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
   List<DrinkModel> _drinks = [];
   @override
   void initState() {
-    _drinks = widget.drinks;
     super.initState();
+    _drinks = widget.drinks;
   }
 
   @override
@@ -49,8 +50,14 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                 itemBuilder: (context, index) {
                   return Row(
                     children: [
-                      Image.network(
-                          height: 55, width: 55, _drinks[index].image),
+                      CachedNetworkImage(
+                          imageUrl: _drinks[index].image,
+                          height: 100,
+                          width: 100,
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error)),
                       const SizedBox(width: 8),
                       Text(_drinks[index].name),
                       const SizedBox(width: 8),
@@ -77,10 +84,10 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                   ),
                 ),
                 onPressed: () async {
-                  GetIt.I<CoffeListBloc>()
-                      .add(SendOrderEvent(context: context));
-                  if (widget.ctx.mounted) {
-                    Navigator.pop(widget.ctx);
+                    GetIt.I<CoffeListBloc>()
+                        .add(SendOrderEvent(context: widget.ctx));
+                  if (context.mounted) {
+                    Navigator.pop(context);
                   }
                   GetIt.I<OrderListBloc>().add(ClearOrderEvent());
                 },
