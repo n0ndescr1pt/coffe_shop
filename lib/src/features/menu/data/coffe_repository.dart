@@ -1,35 +1,38 @@
+
 import 'package:coffe_shop/src/features/menu/data/data_source/coffe_data_source.dart';
+import 'package:coffe_shop/src/features/menu/data/data_source/savable_coffe_data_source.dart';
 import 'package:coffe_shop/src/features/menu/models/coffee_model.dart';
 import 'package:coffe_shop/src/features/menu/models/dto/coffe_dto.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 abstract class ICoffeRepository {
   Future<List<CoffeModel>> fetchData();
-  Future<void> sendOrder(BuildContext context);
+  Future<bool> sendOrder();
 }
 
 class CoffeRepository implements ICoffeRepository {
   final ICoffeDataSource _networkCoffeDataSource;
+  final IDBCoffeDataSource _dbCoffeDataSource;
 
-  const CoffeRepository({required ICoffeDataSource networkCoffeDataSource})
-      : _networkCoffeDataSource = networkCoffeDataSource;
+  const CoffeRepository(
+      {required ICoffeDataSource networkCoffeDataSource,
+      required IDBCoffeDataSource dbCoffeDataSource})
+      : _networkCoffeDataSource = networkCoffeDataSource,
+        _dbCoffeDataSource = dbCoffeDataSource;
 
   @override
   Future<List<CoffeModel>> fetchData() async {
     var dtos = <CoffeDto>[];
     try {
-      print(1);
       dtos = await _networkCoffeDataSource.getData();
-      print(2);
+      await _dbCoffeDataSource.updateCoffeList(dtos);
     } catch (e) {
-      print(e);
+      dtos = await _dbCoffeDataSource.getCoffeList();
     }
     return dtos.map((e) => CoffeModel.fromDto(e)).toList();
   }
 
   @override
-  Future<void> sendOrder(BuildContext context) async {
-    await _networkCoffeDataSource.sendOrder(context);
+  Future<bool> sendOrder() async {
+   return await _networkCoffeDataSource.sendOrder();
   }
 }

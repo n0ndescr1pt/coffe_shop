@@ -23,7 +23,7 @@ class DrinkModel {
       name: dto.name,
       image: dto.image,
       price: dto.price,
-      id: dto.id,
+      id: dto.categoryID,
       category: dto.category,
       productID: dto.productID,
     );
