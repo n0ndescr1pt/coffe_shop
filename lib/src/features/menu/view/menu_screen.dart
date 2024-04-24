@@ -1,3 +1,4 @@
+import 'package:coffe_shop/src/features/map/view/map_screen.dart';
 import 'package:coffe_shop/src/features/menu/bloc/coffe_list_bloc/coffe_list_bloc.dart';
 import 'package:coffe_shop/src/features/menu/utils/scroll_utils.dart';
 import 'package:coffe_shop/src/features/menu/view/widgets/category_listview.dart';
@@ -60,19 +61,38 @@ class _MenuScreenState extends State<MenuScreen> {
           if (state is CoffeListLoaded) {
             return Scaffold(
               appBar: AppBar(
-                toolbarHeight: 50,
+                toolbarHeight: 80,
                 surfaceTintColor: AppColors.backgroundColor,
                 backgroundColor: AppColors.backgroundColor,
                 titleSpacing: 16,
                 centerTitle: true,
-                title: SizedBox(
-                  height: 35,
-                  child: CategoryListView(
-                    itemController: itemController,
-                    coffeModel: state.coffeList,
-                    categoryItemController: categoryItemController,
-                    currentTub: currentTub,
-                  ),
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          try {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MapScreen(),
+                              ),
+                            );
+                          } catch (e) {
+                            print(e);
+                          }
+                        },
+                        child: const Text("data")),
+                    SizedBox(
+                      height: 35,
+                      child: CategoryListView(
+                        itemController: itemController,
+                        coffeModel: state.coffeList,
+                        categoryItemController: categoryItemController,
+                        currentTub: currentTub,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               floatingActionButton: BlocBuilder<OrderListBloc, OrderListState>(
@@ -90,8 +110,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                 showDragHandle: true,
                                 context: context,
                                 builder: (ctx) => MyBottomSheet(
-                                    drinks: state.drinks,
-                                    ctx: context),
+                                    drinks: state.drinks, ctx: context),
                               );
                             },
                             foregroundColor: Colors.white,
