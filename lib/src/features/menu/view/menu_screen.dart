@@ -59,7 +59,9 @@ class _MenuScreenState extends State<MenuScreen> {
         bloc: coffeListBloc,
         builder: (context, state) {
           if (state is CoffeListLoaded) {
+            
             return Scaffold(
+              key: UniqueKey(),
               appBar: AppBar(
                 toolbarHeight: 80,
                 surfaceTintColor: AppColors.backgroundColor,
@@ -74,6 +76,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         Icon(Icons.place),
                         TextButton(
                             onPressed: () {
+                              
                               try {
                                 Navigator.push(
                                   context,

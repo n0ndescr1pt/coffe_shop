@@ -30,6 +30,7 @@ class CoffeListBloc extends Bloc<CoffeListEvent, CoffeListState> {
     coffeList = await _coffeRepository.fetchData();
     mapPoints = await _mapRepository.getPointList();
     adress = await _mapRepository.getSavedAdress();
+    print(mapPoints);
     emit(CoffeListLoaded(
         coffeList: coffeList, mapPoints: mapPoints, adress: adress));
   }
@@ -46,7 +47,8 @@ class CoffeListBloc extends Bloc<CoffeListEvent, CoffeListState> {
   }
 
   _setAdress(SetAdressEvent event, Emitter<CoffeListState> emit) async {
-    await _mapRepository.setAdress(event.adress);
+    adress = await _mapRepository.setAdress(event.adress);
+
     emit(CoffeListLoaded(
         coffeList: coffeList, mapPoints: mapPoints, adress: adress));
   }

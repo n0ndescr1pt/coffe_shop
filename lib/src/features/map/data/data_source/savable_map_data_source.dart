@@ -6,7 +6,7 @@ import 'package:sqflite/sqlite_api.dart';
 abstract interface class IDBMapDataSource {
   Future<List<MapPointDto>> getPointList();
   Future<String> getSavedAdress();
-  Future<void> setAdress(String adress);
+  Future<String> setAdress(String adress);
   Future<void> updatePointList(List<MapPointDto> mapPoints);
 }
 
@@ -36,8 +36,9 @@ class DbMapDataSource implements IDBMapDataSource {
   }
 
   @override
-  Future<void> setAdress(String adress) async {
-    _prefs.setString('adress', adress);
+  Future<String> setAdress(String adress) async {
+   await _prefs.setString('adress', adress);
+    return adress;
   }
 
   @override

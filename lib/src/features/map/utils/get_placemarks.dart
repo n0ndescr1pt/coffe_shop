@@ -28,4 +28,5 @@ List<PlacemarkMapObject> getPlacemarkObjects(
         ),
       )
       .toList();
+      
 }

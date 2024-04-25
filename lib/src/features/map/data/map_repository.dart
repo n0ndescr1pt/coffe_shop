@@ -8,7 +8,7 @@ import 'package:coffe_shop/src/features/map/models/point_model.dart';
 abstract class IMapRepository {
   Future<List<MapPointModel>> getPointList();
     Future<String> getSavedAdress();
-  Future<void> setAdress(String adress);
+  Future<String> setAdress(String adress);
 }
 
 class MapRepository implements IMapRepository {
@@ -39,8 +39,8 @@ class MapRepository implements IMapRepository {
   }
   
   @override
-  Future<void> setAdress(String adress) async {
-    await _dbMapDataSource.setAdress(adress);
+  Future<String> setAdress(String adress) async {
+    return await _dbMapDataSource.setAdress(adress);
   }
 
   
