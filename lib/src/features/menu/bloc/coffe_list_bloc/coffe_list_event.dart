@@ -10,3 +10,8 @@ class SendOrderEvent extends CoffeListEvent {
 
   SendOrderEvent({required this.context});
 }
+class SetAdressEvent extends CoffeListEvent {
+  final String adress;
+
+  SetAdressEvent({required this.adress});
+}

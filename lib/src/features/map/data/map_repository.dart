@@ -7,28 +7,40 @@ import 'package:coffe_shop/src/features/map/models/point_model.dart';
 
 abstract class IMapRepository {
   Future<List<MapPointModel>> getPointList();
+    Future<String> getSavedAdress();
+  Future<void> setAdress(String adress);
 }
 
 class MapRepository implements IMapRepository {
-  final IMapDataSource _networkCoffeDataSource;
-  final IDBMapDataSource _dbCoffeDataSource;
+  final IMapDataSource _networkMapDataSource;
+  final IDBMapDataSource _dbMapDataSource;
 
   const MapRepository(
       {required IMapDataSource networkCoffeDataSource,
       required IDBMapDataSource dbCoffeDataSource})
-      : _networkCoffeDataSource = networkCoffeDataSource,
-        _dbCoffeDataSource = dbCoffeDataSource;
+      : _networkMapDataSource = networkCoffeDataSource,
+        _dbMapDataSource = dbCoffeDataSource;
 
   @override
   Future<List<MapPointModel>> getPointList() async {
     var dtos = <MapPointDto>[];
     try {
-      dtos = await _networkCoffeDataSource.getPoints();
-      _dbCoffeDataSource.updatePointList(dtos);
+      dtos = await _networkMapDataSource.getPoints();
+      _dbMapDataSource.updatePointList(dtos);
     } on SocketException {
-      dtos = await _dbCoffeDataSource.getPointList();
+      dtos = await _dbMapDataSource.getPointList();
     }
     return dtos.map((e) => MapPointModel.fromDTO(e)).toList();
+  }
+  
+  @override
+  Future<String> getSavedAdress() async {
+   return await _dbMapDataSource.getSavedAdress();
+  }
+  
+  @override
+  Future<void> setAdress(String adress) async {
+    await _dbMapDataSource.setAdress(adress);
   }
 
   

@@ -69,20 +69,25 @@ class _MenuScreenState extends State<MenuScreen> {
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextButton(
-                        onPressed: () {
-                          try {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const MapScreen(),
-                              ),
-                            );
-                          } catch (e) {
-                            print(e);
-                          }
-                        },
-                        child: const Text("data")),
+                    Row(
+                      children: [
+                        Icon(Icons.place),
+                        TextButton(
+                            onPressed: () {
+                              try {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MapScreen(mapPoints: state.mapPoints),
+                                  ),
+                                );
+                              } catch (e) {
+                                print(e);
+                              }
+                            },
+                            child: Text(state.adress,style: Theme.of(context).textTheme.bodyMedium)),
+                      ],
+                    ),
                     SizedBox(
                       height: 35,
                       child: CategoryListView(
