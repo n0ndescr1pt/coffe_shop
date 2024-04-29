@@ -8,13 +8,13 @@ List<PlacemarkMapObject> getPlacemarkObjects(
   return mapPoints
       .map(
         (point) => PlacemarkMapObject(
-          onTap:  (_, __) => showModalBottomSheet(
-           context: context,
-           builder: (context) => ModalBodyView(
-             point: point,
-           ),
-         ),
-          mapId: MapObjectId('MapObject $point'),
+          onTap: (_, __) => showModalBottomSheet(
+            context: context,
+            builder: (context) => ModalBodyView(
+              point: point,
+            ),
+          ),
+          mapId: MapObjectId('MapObject ${point.name}'),
           point: Point(latitude: point.latitude, longitude: point.longitude),
           opacity: 1,
           icon: PlacemarkIcon.single(
@@ -28,5 +28,4 @@ List<PlacemarkMapObject> getPlacemarkObjects(
         ),
       )
       .toList();
-      
 }

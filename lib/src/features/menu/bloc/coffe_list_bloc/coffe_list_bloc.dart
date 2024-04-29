@@ -27,6 +27,7 @@ class CoffeListBloc extends Bloc<CoffeListEvent, CoffeListState> {
     on<SendOrderEvent>(_sendOrder);
   }
   _loadCoffeList(LoadCoffeListEvent event, Emitter<CoffeListState> emit) async {
+    emit(CoffeListLoading());
     coffeList = await _coffeRepository.fetchData();
     mapPoints = await _mapRepository.getPointList();
     adress = await _mapRepository.getSavedAdress();

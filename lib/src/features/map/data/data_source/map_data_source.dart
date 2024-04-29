@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:coffe_shop/src/features/map/models/dtos/point_dto.dart';
 import 'package:dio/dio.dart';
 
@@ -20,7 +22,7 @@ class MapDataSource implements IMapDataSource {
       }
       return pointsDto;
     } else {
-      return [];
+      throw const SocketException("no wi fi");
     }
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:coffe_shop/src/features/map/view/map_screen.dart';
 import 'package:coffe_shop/src/features/menu/bloc/coffe_list_bloc/coffe_list_bloc.dart';
 import 'package:coffe_shop/src/features/menu/utils/scroll_utils.dart';
@@ -23,6 +25,7 @@ class _MenuScreenState extends State<MenuScreen> {
   final ItemPositionsListener itemListener = ItemPositionsListener.create();
 
   final ItemScrollController categoryItemController = ItemScrollController();
+  final streamController = StreamController<int>();
 
   int currentTub = 0;
   final ScrollUtils _scrollUtils = ScrollUtils();
@@ -37,13 +40,19 @@ class _MenuScreenState extends State<MenuScreen> {
     itemListener.itemPositions.addListener(_onScrollEvent);
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    streamController.close();
+  }
+
   void _onScrollEvent() {
     final indices =
         itemListener.itemPositions.value.map((e) => e.index).toList();
     if (currentTub != indices[0]) {
-      setState(() {
-        currentTub = indices[0];
-      });
+      currentTub = indices[0];
+      streamController.sink.add(currentTub);
       _scrollUtils.scrollToDirection(categoryItemController, currentTub);
     }
   }
@@ -59,11 +68,9 @@ class _MenuScreenState extends State<MenuScreen> {
         bloc: coffeListBloc,
         builder: (context, state) {
           if (state is CoffeListLoaded) {
-            
             return Scaffold(
-              key: UniqueKey(),
               appBar: AppBar(
-                toolbarHeight: 80,
+                toolbarHeight: 90,
                 surfaceTintColor: AppColors.backgroundColor,
                 backgroundColor: AppColors.backgroundColor,
                 titleSpacing: 16,
@@ -76,19 +83,20 @@ class _MenuScreenState extends State<MenuScreen> {
                         Icon(Icons.place),
                         TextButton(
                             onPressed: () {
-                              
                               try {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => MapScreen(mapPoints: state.mapPoints),
+                                    builder: (context) =>
+                                        MapScreen(mapPoints: state.mapPoints),
                                   ),
                                 );
                               } catch (e) {
                                 print(e);
                               }
                             },
-                            child: Text(state.adress,style: Theme.of(context).textTheme.bodyMedium)),
+                            child: Text(state.adress,
+                                style: Theme.of(context).textTheme.bodyMedium)),
                       ],
                     ),
                     SizedBox(
@@ -97,7 +105,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         itemController: itemController,
                         coffeModel: state.coffeList,
                         categoryItemController: categoryItemController,
-                        currentTub: currentTub,
+                        streamController: streamController,
                       ),
                     ),
                   ],

@@ -89,8 +89,8 @@ class _MapScreenState extends State<MapScreen> {
             CameraUpdate.newCameraPosition(
               const CameraPosition(
                 target: Point(
-                  latitude: 55,
-                  longitude: 74,
+                  latitude: 54.9924,
+                  longitude:  73.3686,
                 ),
                 zoom: 10,
               ),

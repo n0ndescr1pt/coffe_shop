@@ -16,6 +16,5 @@ class CoffeListLoaded extends Equatable implements CoffeListState {
       {required this.coffeList, required this.mapPoints, required this.adress});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [coffeList, mapPoints, adress];
 }
