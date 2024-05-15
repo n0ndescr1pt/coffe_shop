@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "682223097542",
+    "project_id": "cooffeeshop-flutter-academy",
+    "storage_bucket": "cooffeeshop-flutter-academy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682223097542:android:6608623c36e3caf0dda9c7",
+        "android_client_info": {
+          "package_name": "com.effective.coffeeshop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD05NQTa24OElt7xbSyzK3AsF1qCXgH5eg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
