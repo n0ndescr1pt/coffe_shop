@@ -9,6 +9,7 @@ environment:
 dependencies:
   cached_network_image: ^3.3.1
   dio: ^5.4.2+1
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.4
@@ -17,8 +18,11 @@ dependencies:
   http: ^1.2.1
   meta: ^1.11.0
   path_provider: ^2.1.2
+  permission_handler: ^11.3.1
   scrollable_positioned_list: ^0.3.8
+  shared_preferences: ^2.2.3
   sqflite: ^2.3.3
+  yandex_mapkit: ^4.0.2
 
 dev_dependencies:
   flutter_test:
@@ -27,3 +31,11 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - lib/assets/user.png
+    - lib/assets/cluster.png
+    - lib/assets/place.png
+    - lib/assets/arrow.png
+    - lib/assets/route_start.png
+    - lib/assets/route_stop_by.png
+    - lib/assets/route_end.png

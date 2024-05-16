@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:coffe_shop/src/features/menu/models/coffee_model.dart';
 import 'package:coffe_shop/src/features/menu/utils/scroll_utils.dart';
 import 'package:coffe_shop/src/theme/app_colors.dart';
@@ -8,11 +10,11 @@ class CategoryListView extends StatefulWidget {
   final List<CoffeModel> coffeModel;
   final ItemScrollController categoryItemController;
   final ItemScrollController itemController;
-  final int currentTub;
+  final StreamController<int> streamController;
   const CategoryListView(
       {super.key,
       required this.coffeModel,
-      required this.currentTub,
+      required this.streamController,
       required this.categoryItemController,
       required this.itemController});
 
@@ -21,55 +23,52 @@ class CategoryListView extends StatefulWidget {
 }
 
 class _CategoryListViewState extends State<CategoryListView> {
-  late int currentTub;
-
   @override
   void initState() {
     super.initState();
-    currentTub = widget.currentTub;
   }
 
   @override
   Widget build(BuildContext context) {
     final ScrollUtils scrollUtils = ScrollUtils();
 
-    return ScrollablePositionedList.separated(
-      itemScrollController: widget.categoryItemController,
-      scrollDirection: Axis.horizontal,
-      itemCount: widget.coffeModel.length,
-      physics: const BouncingScrollPhysics(),
-      itemBuilder: (context, index) {
-        return TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: widget.currentTub == index
-                ? AppColors.mainColor
-                : AppColors.whiteColor,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16))),
-          ),
-          onPressed: () {
-            setState(() {
-              currentTub = index;
-            });
-            scrollUtils.scrollToDirection(
-                widget.categoryItemController, currentTub);
-            scrollUtils.scrollToDirection(
-                widget.itemController, currentTub);
-          },
-          child: Text(
-            widget.coffeModel[index].title,
-            style: TextStyle(
-              fontSize: 14,
-              color: widget.currentTub == index
-                  ? AppColors.whiteColor
-                  : AppColors.textColor,
+    return StreamBuilder(
+      stream: widget.streamController.stream,
+      builder: (context, snapshot) => ScrollablePositionedList.separated(
+        itemScrollController: widget.categoryItemController,
+        scrollDirection: Axis.horizontal,
+        itemCount: widget.coffeModel.length,
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index) {
+          return TextButton(
+            style: TextButton.styleFrom(
+              backgroundColor: snapshot.data == index
+                  ? AppColors.mainColor
+                  : AppColors.whiteColor,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16))),
             ),
-          ),
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        return const SizedBox(width: 8);
-      },
+            onPressed: () {
+              scrollUtils.scrollToDirection(
+                  widget.categoryItemController, index);
+              scrollUtils.scrollToDirection(
+                  widget.itemController, index);
+            },
+            child: Text(
+              widget.coffeModel[index].title,
+              style: TextStyle(
+                fontSize: 14,
+                color: snapshot.data == index
+                    ? AppColors.whiteColor
+                    : AppColors.textColor,
+              ),
+            ),
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return const SizedBox(width: 8);
+        },
+      ),
     );
   }
 }

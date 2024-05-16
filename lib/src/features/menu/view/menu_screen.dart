@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:coffe_shop/src/features/map/view/map_screen.dart';
 import 'package:coffe_shop/src/features/menu/bloc/coffe_list_bloc/coffe_list_bloc.dart';
 import 'package:coffe_shop/src/features/menu/utils/scroll_utils.dart';
 import 'package:coffe_shop/src/features/menu/view/widgets/category_listview.dart';
@@ -22,6 +25,7 @@ class _MenuScreenState extends State<MenuScreen> {
   final ItemPositionsListener itemListener = ItemPositionsListener.create();
 
   final ItemScrollController categoryItemController = ItemScrollController();
+  final streamController = StreamController<int>();
 
   int currentTub = 0;
   final ScrollUtils _scrollUtils = ScrollUtils();
@@ -36,13 +40,19 @@ class _MenuScreenState extends State<MenuScreen> {
     itemListener.itemPositions.addListener(_onScrollEvent);
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    streamController.close();
+  }
+
   void _onScrollEvent() {
     final indices =
         itemListener.itemPositions.value.map((e) => e.index).toList();
     if (currentTub != indices[0]) {
-      setState(() {
-        currentTub = indices[0];
-      });
+      currentTub = indices[0];
+      streamController.sink.add(currentTub);
       _scrollUtils.scrollToDirection(categoryItemController, currentTub);
     }
   }
@@ -60,19 +70,45 @@ class _MenuScreenState extends State<MenuScreen> {
           if (state is CoffeListLoaded) {
             return Scaffold(
               appBar: AppBar(
-                toolbarHeight: 50,
+                toolbarHeight: 90,
                 surfaceTintColor: AppColors.backgroundColor,
                 backgroundColor: AppColors.backgroundColor,
                 titleSpacing: 16,
                 centerTitle: true,
-                title: SizedBox(
-                  height: 35,
-                  child: CategoryListView(
-                    itemController: itemController,
-                    coffeModel: state.coffeList,
-                    categoryItemController: categoryItemController,
-                    currentTub: currentTub,
-                  ),
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.place),
+                        TextButton(
+                            onPressed: () {
+                              try {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        MapScreen(mapPoints: state.mapPoints),
+                                  ),
+                                );
+                              } catch (e) {
+                                print(e);
+                              }
+                            },
+                            child: Text(state.adress,
+                                style: Theme.of(context).textTheme.bodyMedium)),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 35,
+                      child: CategoryListView(
+                        itemController: itemController,
+                        coffeModel: state.coffeList,
+                        categoryItemController: categoryItemController,
+                        streamController: streamController,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               floatingActionButton: BlocBuilder<OrderListBloc, OrderListState>(
@@ -90,8 +126,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                 showDragHandle: true,
                                 context: context,
                                 builder: (ctx) => MyBottomSheet(
-                                    drinks: state.drinks,
-                                    ctx: context),
+                                    drinks: state.drinks, ctx: context),
                               );
                             },
                             foregroundColor: Colors.white,
