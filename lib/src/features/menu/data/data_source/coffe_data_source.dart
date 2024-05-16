@@ -1,6 +1,7 @@
 import 'package:coffe_shop/src/features/menu/models/dto/coffe_dto.dart';
 import 'package:coffe_shop/src/features/menu/models/dto/drink_dto.dart';
 import 'package:dio/dio.dart';
+import 'package:coffe_shop/src/api/firebase_api.dart';
 
 abstract class ICoffeDataSource {
   Future<List<DrinkDto>> getDrinks();
@@ -75,9 +76,12 @@ class CoffeDataSource implements ICoffeDataSource {
 
   @override
   Future<bool> sendOrder() async {
+    final String token = await FirebaseApi().initNotifications()??"";
+    print(token);
+    print("sadadasdadad");
     final Map<String, dynamic> userData = {
       "positions": {"1": 12},
-      "token": ""
+      "token": token
     };
     final response = await _dio.post('/orders', data: userData);
     if (response.statusCode == 201) {

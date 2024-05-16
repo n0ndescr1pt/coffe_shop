@@ -8,6 +8,7 @@ import 'package:coffe_shop/src/features/menu/view/widgets/coffe_card_widget.dart
 import 'package:coffe_shop/src/features/order/bloc/order_list_bloc.dart';
 import 'package:coffe_shop/src/features/order/view/widget/bottom_sheet.dart';
 import 'package:coffe_shop/src/theme/app_colors.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -38,11 +39,25 @@ class _MenuScreenState extends State<MenuScreen> {
     super.initState();
     coffeListBloc.add(LoadCoffeListEvent());
     itemListener.itemPositions.addListener(_onScrollEvent);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      if (message.notification != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Column(
+              children: [
+                Text(message.notification!.title.toString()),
+                Text(message.notification!.body.toString()),
+              ],
+            ),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    });
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     streamController.close();
   }
@@ -80,7 +95,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.place),
+                        const Icon(Icons.place),
                         TextButton(
                             onPressed: () {
                               try {

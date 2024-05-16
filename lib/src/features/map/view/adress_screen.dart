@@ -24,22 +24,20 @@ class AdressScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: mapsPoints
-              .map(
-                (e) => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(e.name),
-                    IconButton(
-                      onPressed: () {
-                        GetIt.I<CoffeListBloc>()
-                            .add(SetAdressEvent(adress: e.name));
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.arrow_right_rounded),
-                    )
-                  ],
-                ),
-              )
+              .map((e) => ElevatedButton(
+                    onPressed: () {
+                      GetIt.I<CoffeListBloc>()
+                          .add(SetAdressEvent(adress: e.name));
+                      Navigator.pop(context);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(e.name),
+                        const Icon(Icons.arrow_right_rounded)
+                      ],
+                    ),
+                  ))
               .toList(),
         ),
       ),
