@@ -22,7 +22,7 @@ List<PlacemarkMapObject> getPlacemarkObjects(
               image: BitmapDescriptor.fromAssetImage(
                 'lib/assets/place.png',
               ),
-              scale: 2,
+              scale: 1,
             ),
           ),
         ),
