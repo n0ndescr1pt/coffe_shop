@@ -76,7 +76,7 @@ class CoffeDataSource implements ICoffeDataSource {
 
   @override
   Future<bool> sendOrder() async {
-    final String token = await FirebaseApi().initNotifications()??"";
+    final String token = await FirebaseApi().getToken()??"";
     print(token);
     print("sadadasdadad");
     final Map<String, dynamic> userData = {

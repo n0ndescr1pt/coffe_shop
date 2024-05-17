@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:coffe_shop/src/api/firebase_api.dart';
 import 'package:coffe_shop/src/app.dart';
 import 'package:coffe_shop/src/api/database.dart';
 import 'package:coffe_shop/src/features/map/data/data_source/map_data_source.dart';
@@ -21,6 +22,7 @@ void main() {
     AndroidYandexMap.useAndroidViewSurface = false;
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
+    await FirebaseApi().initNotifications();
     await initGetIt();
     runApp(const CoffeeShopApp());
   }, (error, stack) {
