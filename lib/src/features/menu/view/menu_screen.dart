@@ -38,21 +38,6 @@ class _MenuScreenState extends State<MenuScreen> {
     super.initState();
     coffeListBloc.add(LoadCoffeListEvent());
     itemListener.itemPositions.addListener(_onScrollEvent);
-    //FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    //  if (message.notification != null) {
-    //    ScaffoldMessenger.of(context).showSnackBar(
-    //      SnackBar(
-    //        content: Column(
-    //          children: [
-    //            Text(message.notification!.title.toString()),
-    //            Text(message.notification!.body.toString()),
-    //          ],
-    //        ),
-    //        duration: const Duration(seconds: 3),
-    //      ),
-    //    );
-    //  }
-    //});
   }
 
   @override
