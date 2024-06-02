@@ -1,6 +1,5 @@
 import 'dart:async';
-import 'dart:developer';
-
+import 'package:coffe_shop/src/api/firebase_api.dart';
 import 'package:coffe_shop/src/app.dart';
 import 'package:coffe_shop/src/api/database.dart';
 import 'package:coffe_shop/src/features/map/data/data_source/map_data_source.dart';
@@ -12,6 +11,7 @@ import 'package:coffe_shop/src/features/menu/data/data_source/coffe_data_source.
 import 'package:coffe_shop/src/features/menu/data/data_source/savable_coffe_data_source.dart';
 import 'package:coffe_shop/src/features/order/bloc/order_list_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,10 +21,12 @@ void main() {
   runZonedGuarded(() async {
     AndroidYandexMap.useAndroidViewSurface = false;
     WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    await FirebaseApi().initNotifications();
     await initGetIt();
     runApp(const CoffeeShopApp());
   }, (error, stack) {
-    log(error.toString(), name: 'App Error', stackTrace: stack);
+    print(error.toString());
   });
 }
 

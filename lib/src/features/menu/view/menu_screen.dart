@@ -42,7 +42,6 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     streamController.close();
   }
@@ -80,7 +79,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.place),
+                        const Icon(Icons.place),
                         TextButton(
                             onPressed: () {
                               try {

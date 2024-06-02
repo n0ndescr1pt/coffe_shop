@@ -22,7 +22,6 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   void dispose() {
-    _mapController.dispose();
     super.dispose();
   }
 
@@ -92,7 +91,7 @@ class _MapScreenState extends State<MapScreen> {
                   latitude: 54.9924,
                   longitude:  73.3686,
                 ),
-                zoom: 10,
+                zoom: 11,
               ),
             ),
           );
