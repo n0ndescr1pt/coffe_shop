@@ -4,6 +4,7 @@ import 'package:coffe_shop/src/features/menu/models/drink_model.dart';
 import 'package:coffe_shop/src/features/order/bloc/order_list_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyBottomSheet extends StatefulWidget {
   final List<DrinkModel> drinks;
@@ -24,6 +25,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final localName = AppLocalizations.of(context)!.localeName;
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -31,8 +33,9 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("Ваш заказ",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(AppLocalizations.of(context)!.yourOrder,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold)),
               IconButton(
                   onPressed: () {
                     GetIt.I<OrderListBloc>().add(ClearOrderEvent());
@@ -64,7 +67,9 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                       Text("x${_drinks[index].counter.toString()}"),
                       Expanded(child: Container()),
                       Text(
-                        "${_drinks[index].price} ₽",
+                        localName == "ru"
+                            ? '${_drinks[index].priceRUB} ₽'
+                            : '${_drinks[index].priceUSD} \$',
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       )
                     ],
@@ -84,15 +89,15 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                   ),
                 ),
                 onPressed: () async {
-                    GetIt.I<CoffeListBloc>()
-                        .add(SendOrderEvent(context: widget.ctx));
+                  GetIt.I<CoffeListBloc>()
+                      .add(SendOrderEvent(context: widget.ctx));
                   if (context.mounted) {
                     Navigator.pop(context);
                   }
                   GetIt.I<OrderListBloc>().add(ClearOrderEvent());
                 },
-                child: const Text("Оформить заказ",
-                    style: TextStyle(color: Colors.white))),
+                child: Text(AppLocalizations.of(context)!.makeOrder,
+                    style: const TextStyle(color: Colors.white))),
           )
         ],
       ),

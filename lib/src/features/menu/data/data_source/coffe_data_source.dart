@@ -45,7 +45,8 @@ class CoffeDataSource implements ICoffeDataSource {
                 categoryID: listDrinks[i].categoryID,
                 name: listDrinks[i].name,
                 image: listDrinks[i].image,
-                price: listDrinks[i].price,
+                priceRUB: listDrinks[i].priceRUB,
+                priceUSD: listDrinks[i].priceUSD,
                 category: listDrinks[i].category,
                 productID: listDrinks[i].productID),
           );
@@ -76,9 +77,8 @@ class CoffeDataSource implements ICoffeDataSource {
 
   @override
   Future<bool> sendOrder() async {
-    final String token = await FirebaseApi().getToken()??"";
+    final String token = await FirebaseApi().getToken() ?? "";
     print(token);
-    print("sadadasdadad");
     final Map<String, dynamic> userData = {
       "positions": {"1": 12},
       "token": token

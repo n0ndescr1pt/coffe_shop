@@ -4,6 +4,7 @@ import 'package:coffe_shop/src/features/order/bloc/order_list_bloc.dart';
 import 'package:coffe_shop/src/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CoffeCard extends StatefulWidget {
   final DrinkModel drinkModel;
@@ -25,12 +26,14 @@ class _CoffeCardState extends State<CoffeCard> {
         _count++;
       });
       context.read<OrderListBloc>().add(AddToOrderEvent(
+          localName: AppLocalizations.of(context)!.localeName,
           drink: DrinkModel(
               category: widget.drinkModel.category,
               id: widget.drinkModel.id,
               name: widget.drinkModel.name,
               image: widget.drinkModel.image,
-              price: widget.drinkModel.price,
+              priceRUB: widget.drinkModel.priceRUB,
+              priceUSD: widget.drinkModel.priceUSD,
               counter: _count,
               productID: widget.drinkModel.productID)));
     }
@@ -42,18 +45,20 @@ class _CoffeCardState extends State<CoffeCard> {
         _count--;
       });
       context.read<OrderListBloc>().add(RemoveFromOrderEvent(
+          localName: AppLocalizations.of(context)!.localeName,
           drink: DrinkModel(
               category: widget.drinkModel.category,
               id: widget.drinkModel.id,
               name: widget.drinkModel.name,
               image: widget.drinkModel.image,
-              price: widget.drinkModel.price,
+              priceRUB: widget.drinkModel.priceRUB,
+              priceUSD: widget.drinkModel.priceUSD,
               counter: _count,
               productID: widget.drinkModel.productID)));
     }
   }
 
-  Widget _priceOrCount() {
+  Widget _priceOrCount(String localName) {
     if (_count > 0) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -116,7 +121,9 @@ class _CoffeCardState extends State<CoffeCard> {
           ),
           child: Center(
               child: Text(
-            '${widget.drinkModel.price.toString()} руб.',
+            localName == "ru"
+                ? '${widget.drinkModel.priceRUB.toString()} руб.'
+                : '${widget.drinkModel.priceUSD.toString()} usd.',
             style: const TextStyle(color: AppColors.whiteColor),
           )),
         ),
@@ -126,6 +133,7 @@ class _CoffeCardState extends State<CoffeCard> {
 
   @override
   Widget build(BuildContext context) {
+    final localName = AppLocalizations.of(context)!.localeName;
     return BlocListener<OrderListBloc, OrderListState>(
       listener: (context, state) {
         if (state is DoOrderState) {
@@ -154,7 +162,7 @@ class _CoffeCardState extends State<CoffeCard> {
             ),
             Text(widget.drinkModel.name,
                 style: Theme.of(context).textTheme.bodyMedium),
-            _priceOrCount(),
+            _priceOrCount(localName),
           ],
         ),
       ),

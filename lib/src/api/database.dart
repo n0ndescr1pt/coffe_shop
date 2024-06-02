@@ -19,7 +19,7 @@ class DBProvider {
 
   Future<Database> _initDb() async {
     Directory dir = await getApplicationDocumentsDirectory();
-    String path = "${dir.path}Coffe12.db";
+    String path = "${dir.path}Coffe13.db";
     return await openDatabase(path, version: 1, onCreate: _createDB);
   }
 
@@ -37,7 +37,8 @@ class DBProvider {
           category text,
           name text,
           image text,
-          price text,
+          priceRUB text,
+          priceUSD text,
           counter integer,
           category_id integer,
           FOREIGN KEY(category_id) REFERENCES Drink(id)

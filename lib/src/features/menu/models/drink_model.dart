@@ -5,7 +5,8 @@ class DrinkModel {
   final String category;
   final String name;
   final String image;
-  final String price;
+  final String priceRUB;
+  final String priceUSD;
   final int productID;
   final int? counter;
 
@@ -13,7 +14,8 @@ class DrinkModel {
       {required this.id,
       required this.name,
       required this.image,
-      required this.price,
+      required this.priceRUB,
+      required this.priceUSD,
       required this.category,
       required this.productID,
       this.counter});
@@ -22,7 +24,8 @@ class DrinkModel {
     return DrinkModel(
       name: dto.name,
       image: dto.image,
-      price: dto.price,
+      priceRUB: dto.priceRUB,
+      priceUSD: dto.priceUSD,
       id: dto.categoryID,
       category: dto.category,
       productID: dto.productID,

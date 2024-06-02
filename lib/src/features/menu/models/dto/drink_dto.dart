@@ -3,7 +3,8 @@ class DrinkDto {
   final String category;
   final String name;
   final String image;
-  final String price;
+  final String priceRUB;
+  final String priceUSD;
   final int productID;
   final int? counter;
 
@@ -11,7 +12,8 @@ class DrinkDto {
       {required this.categoryID,
       required this.name,
       required this.image,
-      required this.price,
+      required this.priceUSD,
+      required this.priceRUB,
       required this.category,
       required this.productID,
       this.counter});
@@ -20,7 +22,8 @@ class DrinkDto {
     return DrinkDto(
       name: json['name'],
       image: json['imageUrl'],
-      price: json['prices'][0]['value'],
+      priceRUB: json['prices'][0]['value'],
+      priceUSD: json['prices'][1]['value'],
       categoryID: json['category']['id'],
       category: json['category']['slug'],
       productID: json['id'],
@@ -32,7 +35,8 @@ class DrinkDto {
         categoryID: map["category_id"],
         name: map["name"],
         image: map["image"],
-        price: map["price"],
+        priceRUB: map['priceRUB'],
+        priceUSD: map['priceUSD'],
         category: map["category"],
         productID: map["product_id"],
         counter: map['counter']);
@@ -43,23 +47,11 @@ class DrinkDto {
       "category": category,
       "name": name,
       "image": image,
-      "price": price,
+      "priceRUB": priceRUB,
+      "priceUSD": priceUSD,
       "product_id": productID,
       "counter": counter ?? 0,
       "category_id": categoryID
     };
-  }
-
-  @override
-  String toString() {
-    return 'DrinkDto { '
-        'categoryID: $categoryID, '
-        'category: $category, '
-        'name: $name, '
-        'image: $image, '
-        'price: $price, '
-        'productID: $productID, '
-        'counter: $counter '
-        '}';
   }
 }

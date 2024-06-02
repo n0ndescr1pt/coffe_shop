@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -132,7 +133,9 @@ class _MenuScreenState extends State<MenuScreen> {
                             backgroundColor: Colors.blue[200],
                             icon: const Icon(Icons.shopping_bag_outlined),
                             label: Text(
-                              "${state.summ.round()} ₽",
+                              AppLocalizations.of(context)!.localeName == "ru"
+                                  ? '${state.summ.round()} ₽'
+                                  : '${state.summ.round()} \$',
                               style: const TextStyle(fontSize: 18),
                             ),
                           ),
