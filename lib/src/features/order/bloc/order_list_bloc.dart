@@ -13,14 +13,17 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
           id: event.drink.id,
           name: event.drink.name,
           image: event.drink.image,
-          price: event.drink.price,
+          priceRUB: event.drink.priceRUB,
+          priceUSD: event.drink.priceUSD,
           category: event.drink.category,
           counter: event.drink.counter,
           productID: event.drink.productID);
 
       double price = 0;
       drinks.forEach((key, value) {
-        price += double.parse(value.price) * value.counter!;
+        price += double.parse(
+                event.localName == 'ru' ? value.priceRUB : value.priceUSD) *
+            value.counter!;
       });
 
       emit(DoOrderState(drinks: drinks.values.toList(), summ: price));
@@ -31,7 +34,8 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
           id: event.drink.id,
           name: event.drink.name,
           image: event.drink.image,
-          price: event.drink.price,
+          priceRUB: event.drink.priceRUB,
+          priceUSD: event.drink.priceUSD,
           category: event.drink.category,
           counter: event.drink.counter,
           productID: event.drink.productID);
@@ -41,13 +45,15 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
       }
       double price = 0;
       drinks.forEach((key, value) {
-        price += double.parse(value.price) * value.counter!;
+        price += double.parse(
+                event.localName == 'ru' ? value.priceRUB : value.priceUSD) *
+            value.counter!;
       });
 
       emit(DoOrderState(drinks: drinks.values.toList(), summ: price));
     });
 
-    on<ClearOrderEvent>((event, emit){
+    on<ClearOrderEvent>((event, emit) {
       drinks.clear();
       emit(DoOrderState(drinks: drinks.values.toList(), summ: 0));
     });

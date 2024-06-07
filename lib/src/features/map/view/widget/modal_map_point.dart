@@ -2,6 +2,7 @@ import 'package:coffe_shop/src/features/map/models/point_model.dart';
 import 'package:coffe_shop/src/features/menu/bloc/coffe_list_bloc/coffe_list_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ModalBodyView extends StatelessWidget {
   const ModalBodyView({super.key, required this.point});
@@ -29,11 +30,11 @@ class ModalBodyView extends StatelessWidget {
                 GetIt.I<CoffeListBloc>()
                     .add(SetAdressEvent(adress: point.name));
                 Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('Успешно изменено'),
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(AppLocalizations.of(context)!.successUpdate),
                 ));
               },
-              child: const Text("Выбрать"))
+              child: Text(AppLocalizations.of(context)!.selectAddress))
         ]),
       ),
     );

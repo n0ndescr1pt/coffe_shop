@@ -2,6 +2,7 @@ import 'package:coffe_shop/src/features/map/models/point_model.dart';
 import 'package:coffe_shop/src/features/menu/bloc/coffe_list_bloc/coffe_list_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AdressScreen extends StatelessWidget {
   final List<MapPointModel> mapsPoints;
@@ -18,7 +19,7 @@ class AdressScreen extends StatelessWidget {
             height: 0.3, // Высота полосы
           ),
         ),
-        title: const Text("Наши кофейни"),
+        title: Text(AppLocalizations.of(context)!.ourCoffe),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
