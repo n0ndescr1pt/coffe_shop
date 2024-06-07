@@ -1,0 +1,48 @@
+name: coffe_shop
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter_local_notifications: ^9.8.0+1
+  cached_network_image: ^3.3.1
+  dio: ^5.4.2+1
+  equatable: ^2.0.5
+  firebase_core: ^2.31.0
+  firebase_messaging: ^14.9.2
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.1.4
+  get: ^4.6.6
+  get_it: ^7.6.7
+  http: ^1.2.1
+  meta: ^1.11.0
+  path_provider: ^2.1.2
+  permission_handler: ^11.3.1
+  scrollable_positioned_list: ^0.3.8
+  shared_preferences: ^2.2.3
+  sqflite: ^2.3.3
+  yandex_mapkit: ^4.0.2
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  generate: true
+  uses-material-design: true
+  assets:
+    - lib/assets/user.png
+    - lib/assets/cluster.png
+    - lib/assets/place.png
+    - lib/assets/arrow.png
+    - lib/assets/route_start.png
+    - lib/assets/route_stop_by.png
+    - lib/assets/route_end.png
