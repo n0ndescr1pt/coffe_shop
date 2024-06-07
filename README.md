@@ -43,10 +43,10 @@
 ## Скриншоты
 <table>
   <tr>
-    <td><img src="https://github.com/n0ndescr1pt/coffeShop/assets/112966572/24863f02-c907-4373-8d86-f2a8fa08b128" height = 500/></td>
-    <td><img src="https://github.com/n0ndescr1pt/coffeShop/assets/112966572/a189b330-3ab6-4426-8ab0-c4b9a58df284" height = 500/></td>
-     <td><img src="https://github.com/n0ndescr1pt/coffeShop/assets/112966572/66ff704d-0c82-4753-9a71-637c2071641e" height = 500/></td>
-    <td><img src="https://github.com/n0ndescr1pt/coffeShop/assets/112966572/0ea8d071-92a3-4587-b48c-668377129d90" height = 500/></td>
+    <td><img src="https://github.com/n0ndescr1pt/coffeShop/assets/112966572/24863f02-c907-4373-8d86-f2a8fa08b128" height = 300/></td>
+    <td><img src="https://github.com/n0ndescr1pt/coffeShop/assets/112966572/a189b330-3ab6-4426-8ab0-c4b9a58df284" height = 300/></td>
+     <td><img src="https://github.com/n0ndescr1pt/coffeShop/assets/112966572/66ff704d-0c82-4753-9a71-637c2071641e" height = 300/></td>
+    <td><img src="https://github.com/n0ndescr1pt/coffeShop/assets/112966572/0ea8d071-92a3-4587-b48c-668377129d90" height = 300/></td>
 </table>
 
 
